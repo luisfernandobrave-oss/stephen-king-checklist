@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stephen King – Reading Checklist</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0d0d0d;
+      color: #e8dcc8;
+      font-family: 'Georgia', serif;
+    }
+
+    /* HEADER */
+    #header {
+      text-align: center;
+      padding: 48px 24px 32px;
+      background: linear-gradient(180deg, #1a0a0a 0%, #0d0d0d 100%);
+      border-bottom: 1px solid #2a1a1a;
+      position: relative;
+      overflow: hidden;
+    }
+    #header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,0,0,0.03) 2px, rgba(139,0,0,0.03) 4px);
+      pointer-events: none;
+    }
+    #lang-toggle {
+      position: absolute; top: 20px; right: 20px;
+      display: flex; border: 1px solid #2a2a2a; border-radius: 5px; overflow: hidden;
+    }
+    #lang-toggle button {
+      background: #1a1a1a; border: none; color: #5a4a3a;
+      padding: 6px 14px; cursor: pointer; font-size: 0.78rem;
+      font-family: Georgia, serif; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.2s;
+    }
+    #lang-toggle button.active { background: #8b0000; color: #fff; }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+      color: #e8dcc8; letter-spacing: 0.04em;
+      text-shadow: 0 0 60px rgba(139,0,0,0.4); font-weight: normal;
+      margin-bottom: 4px;
+    }
+    h2 {
+      font-size: clamp(1rem, 2.5vw, 1.6rem);
+      font-family: 'Palatino Linotype', serif; color: #8b0000;
+      margin-bottom: 32px; letter-spacing: 0.3em;
+      text-transform: uppercase; font-weight: normal;
+    }
+
+    /* PROGRESS */
+    #progress-wrap { max-width: 420px; margin: 0 auto 8px; }
+    #progress-bar-bg {
+      height: 6px; background: #1e1e1e; border-radius: 3px;
+      overflow: hidden; border: 1px solid #2a2a2a;
+    }
+    #progress-bar {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, #8b0000, #c0392b);
+      border-radius: 3px; transition: width 0.5s ease;
+      box-shadow: 0 0 12px rgba(139,0,0,0.6);
+    }
+    #progress-text { margin-top: 8px; font-size: 0.85rem; color: #7a6a5a; letter-spacing: 0.1em; }
+
+    /* CONTROLS */
+    #controls {
+      max-width: 1100px; margin: 0 auto;
+      padding: 24px 20px 0;
+      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    }
+    #search {
+      flex: 1 1 200px;
+      background: #141414; border: 1px solid #2a2a2a; border-radius: 4px;
+      color: #e8dcc8; padding: 8px 14px; font-size: 0.9rem;
+      outline: none; font-family: Georgia, serif;
+    }
+    #filters { display: flex; gap: 6px; flex-wrap: wrap; }
+    .filter-btn {
+      background: #1a1a1a; border: 1px solid #2a2a2a; color: #7a6a5a;
+      border-radius: 4px; padding: 6px 14px; cursor: pointer;
+      font-size: 0.8rem; letter-spacing: 0.05em;
+      transition: all 0.2s; font-family: Georgia, serif;
+    }
+    .filter-btn.active { background: #8b0000; border-color: #8b0000; color: #fff; }
+    #add-btn {
+      background: #1a1a1a; border: 1px solid #8b0000; color: #e8dcc8;
+      border-radius: 4px; padding: 6px 16px; cursor: pointer;
+      font-size: 0.85rem; font-family: Georgia, serif; transition: all 0.2s;
+    }
+    #add-btn.open { background: #2a1a1a; }
+
+    /* ADD FORM */
+    #add-form {
+      max-width: 1100px; margin: 16px auto 0; padding: 0 20px;
+      display: none;
+    }
+    #add-form.visible { display: block; }
+    #add-form-inner {
+      background: #141414; border: 1px solid #2a1a1a; border-radius: 6px;
+      padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+    }
+    .form-group { display: flex; flex-direction: column; }
+    .form-group label {
+      font-size: 0.75rem; color: #7a6a5a; margin-bottom: 6px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .form-group input {
+      background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 4px;
+      color: #e8dcc8; padding: 8px 12px; font-size: 0.9rem;
+      outline: none; font-family: Georgia, serif;
+    }
+    #tag-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag-btn {
+      background: #0d0d0d; border: 1px solid #2a2a2a; color: #5a4a3a;
+      border-radius: 3px; padding: 4px 10px; cursor: pointer;
+      font-size: 0.75rem; font-family: Georgia, serif; transition: all 0.2s;
+    }
+    .tag-btn.selected { background: #2a1010; border-color: #8b0000; color: #e8dcc8; }
+    #submit-btn {
+      background: #8b0000; border: none; color: #fff; border-radius: 4px;
+      padding: 9px 20px; cursor: pointer; font-size: 0.9rem;
+      font-family: Georgia, serif; white-space: nowrap;
+    }
+
+    /* BOOK GRID */
+    #book-grid {
+      max-width: 1100px; margin: 24px auto 60px; padding: 0 20px;
+      columns: 3 280px; column-gap: 24px;
+    }
+    .book-item {
+      break-inside: avoid; margin-bottom: 2px;
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 6px 8px; border-radius: 3px; cursor: pointer;
+      background: transparent; transition: background 0.2s;
+      border-left: 2px solid transparent;
+      user-select: none;
+    }
+    .book-item.read {
+      background: rgba(139,0,0,0.06);
+      border-left-color: #8b0000;
+    }
+    .book-item:hover { background: rgba(255,255,255,0.02); }
+    .book-item.read:hover { background: rgba(139,0,0,0.09); }
+
+    .checkbox {
+      width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px;
+      border: 1.5px solid #3a3a3a; border-radius: 2px;
+      background: transparent; display: flex; align-items: center;
+      justify-content: center; transition: all 0.2s;
+    }
+    .book-item.read .checkbox {
+      background: #8b0000; border-color: #8b0000;
+    }
+    .checkbox svg { display: none; }
+    .book-item.read .checkbox svg { display: block; }
+
+    .book-title {
+      font-size: 0.85rem; color: #c8b898; line-height: 1.35;
+      transition: color 0.2s;
+    }
+    .book-item.read .book-title {
+      color: #5a4a3a;
+      text-decoration: line-through;
+      text-decoration-color: #5a3a2a;
+    }
+    .book-year { color: #4a3a2a; font-size: 0.75rem; }
+    .book-tag { margin-left: 3px; }
+    .remove-btn {
+      margin-left: 6px; color: #5a2a2a; font-size: 0.7rem;
+      cursor: pointer; display: none;
+    }
+    .custom .remove-btn { display: inline; }
+
+    #empty-msg {
+      color: #3a3a3a; text-align: center; padding: 40px 0;
+      display: none; grid-column: 1/-1;
+    }
+
+    /* LEGEND */
+    #legend {
+      border-top: 1px solid #1a1a1a; padding: 20px;
+      display: flex; justify-content: center;
+      flex-wrap: wrap; gap: 16px 32px;
+    }
+    .legend-item { font-size: 0.75rem; color: #5a4a3a; letter-spacing: 0.05em; }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div id="header">
+  <div id="lang-toggle">
+    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+    <button id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+  <h1>Stephen King</h1>
+  <h2 id="subtitle">Reading Checklist</h2>
+  <div id="progress-wrap">
+    <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+    <p id="progress-text"></p>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div id="controls">
+  <input id="search" type="text" placeholder="Search book..." oninput="renderBooks()" />
+  <div id="filters">
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
+    <button class="filter-btn" data-filter="read" onclick="setFilter('read')">Read</button>
+    <button class="filter-btn" data-filter="unread" onclick="setFilter('unread')">Unread</button>
+    <button class="filter-btn" data-filter="collection" onclick="setFilter('collection')">Collection</button>
+    <button class="filter-btn" data-filter="bachman" onclick="setFilter('bachman')">Bachman</button>
+  </div>
+  <button id="add-btn" onclick="toggleAddForm()">+ Add book</button>
+</div>
+
+<!-- ADD FORM -->
+<div id="add-form">
+  <div id="add-form-inner">
+    <div class="form-group" style="flex: 2 1 170px">
+      <label id="lbl-title-en">Title (English)</label>
+      <input id="inp-title" placeholder="The Shining" />
+    </div>
+    <div class="form-group" style="flex: 2 1 170px">
+      <label id="lbl-title-es">Title (Spanish)</label>
+      <input id="inp-title-es" placeholder="El resplandor" />
+    </div>
+    <div class="form-group" style="flex: 0 1 90px">
+      <label id="lbl-year">Year</label>
+      <input id="inp-year" type="number" placeholder="2024" style="width:100%" />
+    </div>
+    <div class="form-group" style="flex: 1 1 260px">
+      <label id="lbl-tags">Tags</label>
+      <div id="tag-btns"></div>
+    </div>
+    <button id="submit-btn" onclick="addBook()">Add</button>
+  </div>
+</div>
+
+<!-- BOOK GRID -->
+<div id="book-grid"></div>
+
+<!-- LEGEND -->
+<div id="legend"></div>
+
+<script>
+// ── DATA ──────────────────────────────────────────────────────────────────────
+const INITIAL_BOOKS = [
+  { id: 1,  title: "Carrie",                                              titleEs: "Carrie",                                                        year: 1974, tags: [] },
+  { id: 2,  title: "'Salem's Lot",                                        titleEs: "El misterio de Salem's Lot",                                    year: 1975, tags: [] },
+  { id: 3,  title: "The Shining",                                         titleEs: "El resplandor",                                                 year: 1977, tags: [] },
+  { id: 4,  title: "Rage",                                                titleEs: "Rabia",                                                         year: 1977, tags: ["bachman"] },
+  { id: 5,  title: "Night Shift",                                         titleEs: "El umbral de la noche",                                         year: 1978, tags: ["collection"] },
+  { id: 6,  title: "The Stand",                                           titleEs: "El misterio",                                                   year: 1978, tags: [] },
+  { id: 7,  title: "The Long Walk",                                       titleEs: "La larga marcha",                                               year: 1979, tags: ["bachman"] },
+  { id: 8,  title: "The Dead Zone",                                       titleEs: "La zona muerta",                                                year: 1979, tags: [] },
+  { id: 9,  title: "Firestarter",                                         titleEs: "Ojos de fuego",                                                 year: 1980, tags: [] },
+  { id: 10, title: "Roadwork",                                            titleEs: "Carretera maldita",                                             year: 1981, tags: ["bachman"] },
+  { id: 11, title: "Danse Macabre",                                       titleEs: "Danza macabra",                                                 year: 1981, tags: ["nonfiction"] },
+  { id: 12, title: "Cujo",                                                titleEs: "Cujo",                                                          year: 1981, tags: [] },
+  { id: 13, title: "The Running Man",                                     titleEs: "El corredor del laberinto",                                     year: 1982, tags: ["bachman"] },
+  { id: 14, title: "Creepshow",                                           titleEs: "Creepshow",                                                     year: 1982, tags: ["graphic"] },
+  { id: 15, title: "The Dark Tower: The Gunslinger",                      titleEs: "La Torre Oscura: El pistolero",                                 year: 1982, tags: [] },
+  { id: 16, title: "Different Seasons",                                   titleEs: "Cuatro estaciones",                                             year: 1982, tags: ["collection"] },
+  { id: 17, title: "Christine",                                           titleEs: "Christine",                                                     year: 1983, tags: [] },
+  { id: 18, title: "Cycle of the Werewolf",                               titleEs: "El ciclo del hombre lobo",                                      year: 1983, tags: [] },
+  { id: 19, title: "Pet Sematary",                                        titleEs: "Cementerio de animales",                                        year: 1983, tags: [] },
+  { id: 20, title: "The Eyes of the Dragon",                              titleEs: "Los ojos del dragón",                                           year: 1984, tags: [] },
+  { id: 21, title: "The Talisman",                                        titleEs: "El talismán",                                                   year: 1984, tags: ["coauthored"] },
+  { id: 22, title: "Thinner",                                             titleEs: "Adelgazamiento",                                                year: 1984, tags: ["bachman"] },
+  { id: 23, title: "Skeleton Crew",                                       titleEs: "Tripulación de huesos",                                         year: 1985, tags: ["collection"] },
+  { id: 24, title: "IT",                                                  titleEs: "Eso",                                                           year: 1986, tags: [] },
+  { id: 25, title: "The Dark Tower: The Drawing of the Three",            titleEs: "La Torre Oscura: Las tres cartas",                              year: 1987, tags: [] },
+  { id: 26, title: "Misery",                                              titleEs: "Misery",                                                        year: 1987, tags: [] },
+  { id: 27, title: "The Tommyknockers",                                   titleEs: "Los Tommyknockers",                                             year: 1987, tags: [] },
+  { id: 28, title: "Nightmares in the Sky",                               titleEs: "Pesadillas en el cielo",                                        year: 1988, tags: ["nonfiction"] },
+  { id: 29, title: "The Dark Half",                                       titleEs: "La mitad oscura",                                               year: 1989, tags: [] },
+  { id: 30, title: "Four Past Midnight",                                  titleEs: "Cuatro después de medianoche",                                  year: 1990, tags: ["collection"] },
+  { id: 31, title: "The Dark Tower: The Waste Lands",                     titleEs: "La Torre Oscura: Las tierras baldías",                          year: 1991, tags: [] },
+  { id: 32, title: "Needful Things",                                      titleEs: "La tienda",                                                     year: 1991, tags: [] },
+  { id: 33, title: "Gerald's Game",                                       titleEs: "El juego de Gerald",                                            year: 1992, tags: [] },
+  { id: 34, title: "Dolores Claiborne",                                   titleEs: "Dolores Claiborne",                                             year: 1992, tags: [] },
+  { id: 35, title: "Nightmares and Dreamscapes",                          titleEs: "Pesadillas y alucinaciones",                                    year: 1993, tags: ["collection"] },
+  { id: 36, title: "Insomnia",                                            titleEs: "Insomnio",                                                      year: 1994, tags: [] },
+  { id: 37, title: "Rose Madder",                                         titleEs: "Rosa Madder",                                                   year: 1995, tags: [] },
+  { id: 38, title: "The Green Mile",                                      titleEs: "La milla verde",                                                year: 1996, tags: [] },
+  { id: 39, title: "Desperation",                                         titleEs: "Desesperación",                                                 year: 1996, tags: [] },
+  { id: 40, title: "The Regulators",                                      titleEs: "Los reguladores",                                               year: 1996, tags: ["bachman"] },
+  { id: 41, title: "The Dark Tower: Wizard and Glass",                    titleEs: "La Torre Oscura: Mago y cristal",                               year: 1997, tags: [] },
+  { id: 42, title: "Bag of Bones",                                        titleEs: "Saco de huesos",                                                year: 1998, tags: [] },
+  { id: 43, title: "The Girl Who Loved Tom Gordon",                       titleEs: "La chica que amaba a Tom Gordon",                               year: 1999, tags: [] },
+  { id: 44, title: "Hearts in Atlantis",                                  titleEs: "Corazones en la Atlántida",                                     year: 1999, tags: ["collection"] },
+  { id: 45, title: "On Writing: A Memoir of the Craft",                   titleEs: "Mientras escribo",                                              year: 2000, tags: ["nonfiction"] },
+  { id: 46, title: "Secret Windows",                                      titleEs: "Ventanas secretas",                                             year: 2000, tags: ["nonfiction"] },
+  { id: 47, title: "Dreamcatcher",                                        titleEs: "Atrapasueños",                                                  year: 2001, tags: [] },
+  { id: 48, title: "Black House",                                         titleEs: "La casa negra",                                                 year: 2001, tags: ["coauthored"] },
+  { id: 49, title: "Everything's Eventual",                               titleEs: "Todo es eventual",                                              year: 2001, tags: ["collection"] },
+  { id: 50, title: "From a Buick 8",                                      titleEs: "De un Buick 8",                                                 year: 2002, tags: [] },
+  { id: 51, title: "The Dark Tower: Wolves of the Calla",                 titleEs: "La Torre Oscura: Los lobos de la Calla",                        year: 2003, tags: [] },
+  { id: 52, title: "The Dark Tower: Song of Susannah",                    titleEs: "La Torre Oscura: La canción de Susannah",                       year: 2004, tags: [] },
+  { id: 53, title: "The Dark Tower: The Dark Tower",                      titleEs: "La Torre Oscura: La Torre Oscura",                              year: 2004, tags: [] },
+  { id: 54, title: "Faithful",                                            titleEs: "Faithful",                                                      year: 2004, tags: ["nonfiction","coauthored"] },
+  { id: 55, title: "The Colorado Kid",                                    titleEs: "El chico de Colorado",                                          year: 2005, tags: [] },
+  { id: 56, title: "Cell",                                                titleEs: "Cell",                                                          year: 2006, tags: [] },
+  { id: 57, title: "Lisey's Story",                                       titleEs: "La historia de Lisey",                                          year: 2006, tags: [] },
+  { id: 58, title: "Blaze",                                               titleEs: "Blaze",                                                         year: 2007, tags: ["bachman"] },
+  { id: 59, title: "Duma Key",                                            titleEs: "Duma Key",                                                      year: 2008, tags: [] },
+  { id: 60, title: "Just After Sunset",                                   titleEs: "Al caer el sol",                                                year: 2008, tags: ["collection"] },
+  { id: 61, title: "Under the Dome",                                      titleEs: "Bajo la cúpula",                                                year: 2009, tags: [] },
+  { id: 62, title: "Full Dark, No Stars",                                 titleEs: "Oscuros, sin estrellas",                                        year: 2010, tags: ["collection"] },
+  { id: 63, title: "American Vampire Vol. 1",                             titleEs: "American Vampire Vol. 1",                                       year: 2010, tags: ["coauthored","graphic"] },
+  { id: 64, title: "11/22/63",                                            titleEs: "22/11/63",                                                      year: 2011, tags: [] },
+  { id: 65, title: "The Dark Tower: The Wind Through the Keyhole",        titleEs: "La Torre Oscura: El viento por el ojo de la cerradura",         year: 2012, tags: [] },
+  { id: 66, title: "Joyland",                                             titleEs: "Joyland",                                                       year: 2013, tags: [] },
+  { id: 67, title: "The Dark Man",                                        titleEs: "El hombre oscuro",                                              year: 2013, tags: [] },
+  { id: 68, title: "Doctor Sleep",                                        titleEs: "Doctor Sueño",                                                  year: 2013, tags: [] },
+  { id: 69, title: "Mr. Mercedes",                                        titleEs: "Mr. Mercedes",                                                  year: 2014, tags: [] },
+  { id: 70, title: "Revival",                                             titleEs: "Revival",                                                       year: 2014, tags: [] },
+  { id: 71, title: "Finders Keepers",                                     titleEs: "El cazador de sueños",                                          year: 2015, tags: [] },
+  { id: 72, title: "The Bazaar of Bad Dreams",                            titleEs: "El bazar de los malos sueños",                                  year: 2015, tags: ["collection"] },
+  { id: 73, title: "End of Watch",                                        titleEs: "Fin de guardia",                                                year: 2016, tags: [] },
+  { id: 74, title: "Gwendy's Button Box",                                 titleEs: "La caja de botones de Gwendy",                                  year: 2017, tags: ["coauthored"] },
+  { id: 75, title: "Sleeping Beauties",                                   titleEs: "Bellas durmientes",                                             year: 2017, tags: ["coauthored"] },
+  { id: 76, title: "The Outsider",                                        titleEs: "El visitante",                                                  year: 2018, tags: [] },
+  { id: 77, title: "Elevation",                                           titleEs: "Elevación",                                                     year: 2018, tags: [] },
+  { id: 78, title: "The Institute",                                       titleEs: "El Instituto",                                                  year: 2019, tags: [] },
+  { id: 79, title: "If It Bleeds",                                        titleEs: "Si sangra",                                                     year: 2020, tags: ["collection"] },
+  { id: 80, title: "Later",                                               titleEs: "Después",                                                       year: 2021, tags: [] },
+  { id: 81, title: "Billy Summers",                                       titleEs: "Billy Summers",                                                 year: 2021, tags: [] },
+  { id: 82, title: "Gwendy's Final Task",                                 titleEs: "La misión final de Gwendy",                                     year: 2022, tags: ["coauthored"] },
+  { id: 83, title: "Fairy Tale",                                          titleEs: "Cuento de hadas",                                               year: 2022, tags: [] },
+];
+
+const TAGS = {
+  bachman:    { label: "Richard Bachman", labelEs: "Richard Bachman", emoji: "💀" },
+  coauthored: { label: "Co-authored",     labelEs: "Co-escrito",      emoji: "💀" },
+  collection: { label: "Collection",      labelEs: "Colección",       emoji: "🌹" },
+  nonfiction: { label: "Non-fiction",     labelEs: "No ficción",      emoji: "💀" },
+  graphic:    { label: "Graphic Novel",   labelEs: "Novela gráfica",  emoji: "💀" },
+};
+
+const I18N = {
+  en: {
+    subtitle: "Reading Checklist", read: "read", search: "Search book...",
+    all: "All", readF: "Read", unread: "Unread", collection: "Collection",
+    addBtn: "+ Add book", addBtnOpen: "✕ Close",
+    lblTitleEn: "Title (English)", lblTitleEs: "Title (Spanish)",
+    lblYear: "Year", lblTags: "Tags", submit: "Add",
+    empty: "No books found.",
+  },
+  es: {
+    subtitle: "Lista de Lectura", read: "leídos", search: "Buscar libro...",
+    all: "Todos", readF: "Leídos", unread: "Pendientes", collection: "Colección",
+    addBtn: "+ Agregar libro", addBtnOpen: "✕ Cerrar",
+    lblTitleEn: "Título (inglés)", lblTitleEs: "Título (español)",
+    lblYear: "Año", lblTags: "Etiquetas", submit: "Agregar",
+    empty: "No se encontraron libros.",
+  }
+};
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let books = JSON.parse(localStorage.getItem("sk_books_v2") || "null") || INITIAL_BOOKS;
+let read  = JSON.parse(localStorage.getItem("sk_read")     || "{}");
+let lang  = localStorage.getItem("sk_lang") || "en";
+let filter = "all";
+let addFormOpen = false;
+let selectedTags = [];
+
+function save() {
+  localStorage.setItem("sk_books_v2", JSON.stringify(books));
+  localStorage.setItem("sk_read",     JSON.stringify(read));
+  localStorage.setItem("sk_lang",     lang);
+}
+
+// ── LANG ──────────────────────────────────────────────────────────────────────
+function setLang(l) {
+  lang = l;
+  save();
+  applyLang();
+  renderBooks();
+}
+
+function applyLang() {
+  const t = I18N[lang];
+  document.getElementById("subtitle").textContent = t.subtitle;
+  document.getElementById("search").placeholder   = t.search;
+  document.getElementById("btn-en").classList.toggle("active", lang === "en");
+  document.getElementById("btn-es").classList.toggle("active", lang === "es");
+  document.getElementById("add-btn").textContent  = addFormOpen ? t.addBtnOpen : t.addBtn;
+  document.getElementById("lbl-title-en").textContent = t.lblTitleEn;
+  document.getElementById("lbl-title-es").textContent = t.lblTitleEs;
+  document.getElementById("lbl-year").textContent     = t.lblYear;
+  document.getElementById("lbl-tags").textContent     = t.lblTags;
+  document.getElementById("submit-btn").textContent   = t.submit;
+  // filter buttons
+  const fb = document.querySelectorAll(".filter-btn");
+  const labels = [t.all, t.readF, t.unread, t.collection, "Bachman"];
+  fb.forEach((b, i) => b.textContent = labels[i]);
+  renderTagButtons();
+  renderLegend();
+  updateProgress();
+}
+
+// ── FILTER ────────────────────────────────────────────────────────────────────
+function setFilter(f) {
+  filter = f;
+  document.querySelectorAll(".filter-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.filter === f)
+  );
+  renderBooks();
+}
+
+// ── ADD FORM ──────────────────────────────────────────────────────────────────
+function toggleAddForm() {
+  addFormOpen = !addFormOpen;
+  document.getElementById("add-form").classList.toggle("visible", addFormOpen);
+  document.getElementById("add-btn").textContent = addFormOpen ? I18N[lang].addBtnOpen : I18N[lang].addBtn;
+  document.getElementById("add-btn").classList.toggle("open", addFormOpen);
+}
+
+function renderTagButtons() {
+  const wrap = document.getElementById("tag-btns");
+  wrap.innerHTML = "";
+  Object.entries(TAGS).forEach(([key, cfg]) => {
+    const b = document.createElement("button");
+    b.className = "tag-btn" + (selectedTags.includes(key) ? " selected" : "");
+    b.textContent = cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label);
+    b.onclick = () => {
+      if (selectedTags.includes(key)) selectedTags = selectedTags.filter(t => t !== key);
+      else selectedTags.push(key);
+      renderTagButtons();
+    };
+    wrap.appendChild(b);
+  });
+}
+
+function addBook() {
+  const title = document.getElementById("inp-title").value.trim();
+  if (!title) return;
+  const titleEs = document.getElementById("inp-title-es").value.trim() || title;
+  const year    = parseInt(document.getElementById("inp-year").value) || new Date().getFullYear();
+  books.push({ id: Date.now(), title, titleEs, year, tags: [...selectedTags], custom: true });
+  books.sort((a, b) => a.year - b.year);
+  document.getElementById("inp-title").value    = "";
+  document.getElementById("inp-title-es").value = "";
+  document.getElementById("inp-year").value     = "";
+  selectedTags = [];
+  save(); renderTagButtons(); renderBooks(); updateProgress();
+}
+
+function removeBook(id, e) {
+  e.stopPropagation();
+  books = books.filter(b => b.id !== id);
+  delete read[id];
+  save(); renderBooks(); updateProgress();
+}
+
+// ── TOGGLE READ ───────────────────────────────────────────────────────────────
+function toggleRead(id) {
+  read[id] = !read[id];
+  save();
+  const el = document.querySelector(`.book-item[data-id="${id}"]`);
+  if (el) el.classList.toggle("read", !!read[id]);
+  updateProgress();
+}
+
+// ── PROGRESS ──────────────────────────────────────────────────────────────────
+function updateProgress() {
+  const total   = books.length;
+  const readCnt = books.filter(b => read[b.id]).length;
+  const pct     = total ? Math.round((readCnt / total) * 100) : 0;
+  document.getElementById("progress-bar").style.width = pct + "%";
+  document.getElementById("progress-text").textContent =
+    `${readCnt} / ${total} ${I18N[lang].read} · ${pct}%`;
+}
+
+// ── RENDER BOOKS ──────────────────────────────────────────────────────────────
+function renderBooks() {
+  const query = document.getElementById("search").value.toLowerCase();
+  const grid  = document.getElementById("book-grid");
+  grid.innerHTML = "";
+
+  const filtered = books.filter(b => {
+    const matchFilter =
+      filter === "all" ||
+      (filter === "read"   && read[b.id])  ||
+      (filter === "unread" && !read[b.id]) ||
+      b.tags.includes(filter);
+    const displayTitle = lang === "es" ? (b.titleEs || b.title) : b.title;
+    return matchFilter && displayTitle.toLowerCase().includes(query);
+  });
+
+  if (filtered.length === 0) {
+    const p = document.createElement("p");
+    p.style.cssText = "color:#3a3a3a;text-align:center;padding:40px 0";
+    p.textContent = I18N[lang].empty;
+    grid.appendChild(p);
+    return;
+  }
+
+  filtered.forEach(book => {
+    const displayTitle = lang === "es" ? (book.titleEs || book.title) : book.title;
+    const isRead = !!read[book.id];
+
+    const div = document.createElement("div");
+    div.className = "book-item" + (isRead ? " read" : "") + (book.custom ? " custom" : "");
+    div.dataset.id = book.id;
+    div.onclick = () => toggleRead(book.id);
+
+    // checkbox
+    const cb = document.createElement("div");
+    cb.className = "checkbox";
+    cb.innerHTML = `<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    div.appendChild(cb);
+
+    // text
+    const span = document.createElement("span");
+    span.className = "book-title";
+    let html = `${displayTitle} <span class="book-year">(${book.year})</span>`;
+    book.tags.forEach(t => {
+      if (TAGS[t]) html += `<span class="book-tag" title="${lang==='es'?TAGS[t].labelEs:TAGS[t].label}">${TAGS[t].emoji}</span>`;
+    });
+    if (book.custom) {
+      html += `<span class="remove-btn" title="${lang==='es'?'Eliminar':'Remove'}" onclick="removeBook(${book.id}, event)">✕</span>`;
+    }
+    span.innerHTML = html;
+    div.appendChild(span);
+    grid.appendChild(div);
+  });
+}
+
+// ── LEGEND ────────────────────────────────────────────────────────────────────
+function renderLegend() {
+  const legend = document.getElementById("legend");
+  legend.innerHTML = "";
+  Object.entries(TAGS).forEach(([, cfg]) => {
+    const s = document.createElement("span");
+    s.className = "legend-item";
+    s.textContent = cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label);
+    legend.appendChild(s);
+  });
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────────
+renderTagButtons();
+applyLang();
+renderBooks();
+updateProgress();
+renderLegend();
+</script>
+</body>
+</html>
