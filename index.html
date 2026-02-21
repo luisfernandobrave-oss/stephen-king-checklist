@@ -183,6 +183,36 @@
       display: none; grid-column: 1/-1;
     }
 
+    /* EXPORT / IMPORT */
+    #backup-bar {
+      max-width: 1100px; margin: 0 auto 0; padding: 0 20px 20px;
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .backup-btn {
+      display: flex; align-items: center; gap: 6px;
+      border-radius: 4px; padding: 7px 16px; cursor: pointer;
+      font-size: 0.82rem; font-family: Georgia, serif;
+      transition: all 0.2s; letter-spacing: 0.03em;
+    }
+    #export-btn {
+      background: #0d2a0d; border: 1px solid #1a5c1a; color: #7ecf7e;
+    }
+    #export-btn:hover { background: #142e14; border-color: #2a7a2a; }
+    #import-label {
+      background: #0d1a2a; border: 1px solid #1a3a5c; color: #7eb8cf;
+      display: flex; align-items: center; gap: 6px;
+      border-radius: 4px; padding: 7px 16px; cursor: pointer;
+      font-size: 0.82rem; font-family: Georgia, serif;
+      transition: all 0.2s;
+    }
+    #import-label:hover { background: #142230; border-color: #2a5a7a; }
+    #import-input { display: none; }
+    #backup-msg {
+      font-size: 0.78rem; color: #5a7a5a; letter-spacing: 0.05em;
+      opacity: 0; transition: opacity 0.4s;
+    }
+    #backup-msg.show { opacity: 1; }
+
     /* LEGEND */
     #legend {
       border-top: 1px solid #1a1a1a; padding: 20px;
@@ -219,6 +249,18 @@
     <button class="filter-btn" data-filter="bachman" onclick="setFilter('bachman')">Bachman</button>
   </div>
   <button id="add-btn" onclick="toggleAddForm()">+ Add book</button>
+</div>
+
+<!-- BACKUP BAR -->
+<div id="backup-bar">
+  <button class="backup-btn" id="export-btn" onclick="exportProgress()">
+    ⬇ <span id="lbl-export">Export progress</span>
+  </button>
+  <label id="import-label">
+    ⬆ <span id="lbl-import">Import progress</span>
+    <input type="file" id="import-input" accept=".json" onchange="importProgress(event)" />
+  </label>
+  <span id="backup-msg"></span>
 </div>
 
 <!-- ADD FORM -->
@@ -354,6 +396,8 @@ const I18N = {
     lblTitleEn: "Title (English)", lblTitleEs: "Title (Spanish)",
     lblYear: "Year", lblTags: "Tags", submit: "Add",
     empty: "No books found.",
+    export: "Export progress", import: "Import progress",
+    exportOk: "✓ Progress exported!", importOk: "✓ Progress imported!", importErr: "⚠ Invalid file.",
   },
   es: {
     subtitle: "Lista de Lectura", read: "leídos", search: "Buscar libro...",
@@ -362,6 +406,8 @@ const I18N = {
     lblTitleEn: "Título (inglés)", lblTitleEs: "Título (español)",
     lblYear: "Año", lblTags: "Etiquetas", submit: "Agregar",
     empty: "No se encontraron libros.",
+    export: "Exportar progreso", import: "Importar progreso",
+    exportOk: "✓ ¡Progreso exportado!", importOk: "✓ ¡Progreso importado!", importErr: "⚠ Archivo inválido.",
   }
 };
 
@@ -399,6 +445,8 @@ function applyLang() {
   document.getElementById("lbl-year").textContent     = t.lblYear;
   document.getElementById("lbl-tags").textContent     = t.lblTags;
   document.getElementById("submit-btn").textContent   = t.submit;
+  document.getElementById("lbl-export").textContent   = t.export;
+  document.getElementById("lbl-import").textContent   = t.import;
   // filter buttons
   const fb = document.querySelectorAll(".filter-btn");
   const labels = [t.all, t.readF, t.unread, t.collection, "Bachman"];
@@ -546,6 +594,60 @@ function renderLegend() {
     s.textContent = cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label);
     legend.appendChild(s);
   });
+}
+
+// ── EXPORT / IMPORT ───────────────────────────────────────────────────────────
+function showMsg(text, color) {
+  const el = document.getElementById("backup-msg");
+  el.textContent = text;
+  el.style.color = color;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 3000);
+}
+
+function exportProgress() {
+  const data = {
+    version: 1,
+    date: new Date().toISOString(),
+    read: read,
+    books: books.filter(b => b.custom),
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement("a");
+  a.href     = url;
+  a.download = "stephen-king-progress.json";
+  a.click();
+  URL.revokeObjectURL(url);
+  showMsg(I18N[lang].exportOk, "#7ecf7e");
+}
+
+function importProgress(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (!data.read) throw new Error("invalid");
+      // restore read state
+      read = data.read;
+      // restore custom books (merge, avoid duplicates by id)
+      if (Array.isArray(data.books)) {
+        const existingIds = new Set(books.map(b => b.id));
+        data.books.forEach(b => { if (!existingIds.has(b.id)) books.push(b); });
+        books.sort((a, b) => a.year - b.year);
+      }
+      save();
+      renderBooks();
+      updateProgress();
+      showMsg(I18N[lang].importOk, "#7eb8cf");
+    } catch {
+      showMsg(I18N[lang].importErr, "#cf7e7e");
+    }
+    event.target.value = "";
+  };
+  reader.readAsText(file);
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
