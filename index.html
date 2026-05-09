@@ -171,6 +171,11 @@
       text-decoration-color: #5a3a2a;
     }
     .book-year { color: #4a3a2a; font-size: 0.75rem; }
+    .book-number {
+      color: #8b0000; font-weight: bold; font-size: 0.75rem;
+      margin-right: 4px; letter-spacing: 0.05em;
+    }
+    .book-item.read .book-number { color: #5a3a2a; }
     .book-tag { margin-left: 3px; }
     .remove-btn {
       margin-left: 6px; color: #5a2a2a; font-size: 0.7rem;
@@ -296,11 +301,11 @@
 // ── DATA ──────────────────────────────────────────────────────────────────────
 const INITIAL_BOOKS = [
   { id: 1,  title: "Carrie",                                              titleEs: "Carrie",                                                        year: 1974, tags: [] },
-  { id: 2,  title: "'Salem's Lot",                                        titleEs: "El misterio de Salem's Lot",                                    year: 1975, tags: [] },
+  { id: 2,  title: "'Salem's Lot",                                        titleEs: "La sombra del mal",                                             year: 1975, tags: [] },
   { id: 3,  title: "The Shining",                                         titleEs: "El resplandor",                                                 year: 1977, tags: [] },
-  { id: 4,  title: "Rage",                                                titleEs: "Rabia",                                                         year: 1977, tags: ["bachman"] },
-  { id: 5,  title: "Night Shift",                                         titleEs: "El umbral de la noche",                                         year: 1978, tags: ["collection"] },
-  { id: 6,  title: "The Stand",                                           titleEs: "La danza de la muerte / Apocalipsis",                           year: 1978, tags: [] },
+  { id: 4,  title: "Rage",                                                titleEs: "La rabia",                                                      year: 1977, tags: ["bachman"] },
+  { id: 5,  title: "Night Shift",                                         titleEs: "Historias de terror",                                           year: 1978, tags: ["collection"] },
+  { id: 6,  title: "The Stand",                                           titleEs: "La danza de la muerte",                                         year: 1978, tags: [] },
   { id: 7,  title: "The Long Walk",                                       titleEs: "La larga marcha",                                               year: 1979, tags: ["bachman"] },
   { id: 8,  title: "The Dead Zone",                                       titleEs: "La zona muerta",                                                year: 1979, tags: [] },
   { id: 9,  title: "Firestarter",                                         titleEs: "Ojos de fuego",                                                 year: 1980, tags: [] },
@@ -310,7 +315,7 @@ const INITIAL_BOOKS = [
   { id: 13, title: "The Running Man",                                     titleEs: "El fugitivo",                                                   year: 1982, tags: ["bachman"] },
   { id: 14, title: "Creepshow",                                           titleEs: "Creepshow",                                                     year: 1982, tags: ["graphic"] },
   { id: 15, title: "The Dark Tower: The Gunslinger",                      titleEs: "La Torre Oscura: El pistolero",                                 year: 1982, tags: [] },
-  { id: 16, title: "Different Seasons",                                   titleEs: "Cuatro estaciones",                                             year: 1982, tags: ["collection"] },
+  { id: 16, title: "Different Seasons",                                   titleEs: "Diferentes estaciones",                                         year: 1982, tags: ["collection"] },
   { id: 17, title: "Christine",                                           titleEs: "Christine",                                                     year: 1983, tags: [] },
   { id: 18, title: "Cycle of the Werewolf",                               titleEs: "El ciclo del hombre lobo",                                      year: 1983, tags: [] },
   { id: 19, title: "Pet Sematary",                                        titleEs: "Cementerio de animales",                                        year: 1983, tags: [] },
@@ -326,7 +331,7 @@ const INITIAL_BOOKS = [
   { id: 29, title: "The Dark Half",                                       titleEs: "La mitad oscura",                                               year: 1989, tags: [] },
   { id: 30, title: "Four Past Midnight",                                  titleEs: "Cuatro después de medianoche",                                  year: 1990, tags: ["collection"] },
   { id: 31, title: "The Dark Tower: The Waste Lands",                     titleEs: "La Torre Oscura: Las tierras baldías",                          year: 1991, tags: [] },
-  { id: 32, title: "Needful Things",                                      titleEs: "La tienda",                                                     year: 1991, tags: [] },
+  { id: 32, title: "Needful Things",                                      titleEs: "La tienda de Needful Things",                                   year: 1991, tags: [] },
   { id: 33, title: "Gerald's Game",                                       titleEs: "El juego de Gerald",                                            year: 1992, tags: [] },
   { id: 34, title: "Dolores Claiborne",                                   titleEs: "Dolores Claiborne",                                             year: 1992, tags: [] },
   { id: 35, title: "Nightmares and Dreamscapes",                          titleEs: "Pesadillas y alucinaciones",                                    year: 1993, tags: ["collection"] },
@@ -336,7 +341,7 @@ const INITIAL_BOOKS = [
   { id: 39, title: "Desperation",                                         titleEs: "Desesperación",                                                 year: 1996, tags: [] },
   { id: 40, title: "The Regulators",                                      titleEs: "Los reguladores",                                               year: 1996, tags: ["bachman"] },
   { id: 41, title: "The Dark Tower: Wizard and Glass",                    titleEs: "La Torre Oscura: Mago y cristal",                               year: 1997, tags: [] },
-  { id: 41, title: "Six Stories",                                         titleEs: " ",                                                             year: 1997, tags: ["collection"] },  
+  { id: 41, title: "Six Stories",                                         titleEs: "Seis historias",                                                year: 1997, tags: ["collection"] },  
   { id: 42, title: "Bag of Bones",                                        titleEs: "Saco de huesos",                                                year: 1998, tags: [] },
   { id: 43, title: "The Girl Who Loved Tom Gordon",                       titleEs: "La chica que amaba a Tom Gordon",                               year: 1999, tags: [] },
   { id: 44, title: "Hearts in Atlantis",                                  titleEs: "Corazones en la Atlántida",                                     year: 1999, tags: ["collection"] },
@@ -359,9 +364,9 @@ const INITIAL_BOOKS = [
   { id: 60, title: "Just After Sunset",                                   titleEs: "Al caer el sol",                                                year: 2008, tags: ["collection"] },
   { id: 61, title: "Under the Dome",                                      titleEs: "Bajo la cúpula",                                                year: 2009, tags: [] },
   { id: 61, title: "Stephen King Goes to the Movies",                     titleEs: "Stephen King va al cine",                                       year: 2009, tags: [] },
-  { id: 62, title: "Full Dark, No Stars",                                 titleEs: "Oscuros, sin estrellas",                                        year: 2010, tags: ["collection"] },
+  { id: 62, title: "Full Dark, No Stars",                                 titleEs: "Oscuro, sin estrellas",                                         year: 2010, tags: ["collection"] },
   { id: 63, title: "American Vampire Vol. 1",                             titleEs: "American Vampire Vol. 1",                                       year: 2010, tags: ["coauthored","graphic"] },
-  { id: 64, title: "11/22/63",                                            titleEs: "22/11/63",                                                      year: 2011, tags: [] },
+  { id: 64, title: "11/22/63",                                            titleEs: "11/22/63",                                                      year: 2011, tags: [] },
   { id: 65, title: "The Dark Tower: The Wind Through the Keyhole",        titleEs: "La Torre Oscura: El viento por el ojo de la cerradura",         year: 2012, tags: [] },
   { id: 65, title: "Ghost Brothers of Darkland County",                   titleEs: "Ghost Brothers of Darkland County",                             year: 2012, tags: [] },
   { id: 66, title: "Joyland",                                             titleEs: "Joyland",                                                       year: 2013, tags: [] },
@@ -372,7 +377,7 @@ const INITIAL_BOOKS = [
   { id: 71, title: "Finders Keepers",                                     titleEs: "El cazador de sueños",                                          year: 2015, tags: [] },
   { id: 72, title: "The Bazaar of Bad Dreams",                            titleEs: "El bazar de los malos sueños",                                  year: 2015, tags: ["collection"] },
   { id: 73, title: "End of Watch",                                        titleEs: "Fin de guardia",                                                year: 2016, tags: [] },
-  { id: 73, title: "Charlie the Choo-Choo",                               titleEs: "Charlie the Choo-Choo",                                         year: 2016, tags: [] },
+  { id: 73, title: "Charlie the Choo-Choo",                               titleEs: "Charlie el tren",                                               year: 2016, tags: [] },
   { id: 74, title: "Gwendy's Button Box",                                 titleEs: "La caja de botones de Gwendy",                                  year: 2017, tags: ["coauthored"] },
   { id: 75, title: "Sleeping Beauties",                                   titleEs: "Bellas durmientes",                                             year: 2017, tags: ["coauthored"] },
   { id: 76, title: "The Outsider",                                        titleEs: "El visitante",                                                  year: 2018, tags: [] },
@@ -385,15 +390,20 @@ const INITIAL_BOOKS = [
   { id: 82, title: "Gwendy's Final Task",                                 titleEs: "La misión final de Gwendy",                                     year: 2022, tags: ["coauthored"] },
   { id: 83, title: "Fairy Tale",                                          titleEs: "Cuento de hadas",                                               year: 2022, tags: [] },
   { id: 83, title: "Holly",                                               titleEs: "Holly",                                                         year: 2024, tags: [] },
-  { id: 83, title: "You Like It Darker",                                  titleEs: "Si te gusta la oscuridad",                                      year: 2025, tags: [] },
+  { id: 84, title: "You Like It Darker",                                  titleEs: "Si te gusta la oscuridad",                                      year: 2025, tags: [] },
+  { id: 85, title: "Never Flinch",                                        titleEs: "Nunca te desmorones",                                           year: 2025, tags: ["collection"] },
+  { id: 86, title: "Other Worlds Than These",                             titleEs: "Otros mundos además de estos",                                  year: 2026, tags: [] },
 ];
 
 const TAGS = {
-  bachman:    { label: "Richard Bachman", labelEs: "Richard Bachman", emoji: "💀" },
-  coauthored: { label: "Co-authored",     labelEs: "Co-escrito",      emoji: "💀" },
-  collection: { label: "Collection",      labelEs: "Colección",       emoji: "🌹" },
-  nonfiction: { label: "Non-fiction",     labelEs: "No ficción",      emoji: "💀" },
-  graphic:    { label: "Graphic Novel",   labelEs: "Novela gráfica",  emoji: "💀" },
+  bachman:    { label: "Richard Bachman", labelEs: "Richard Bachman", emoji: "🎭" },
+  coauthored: { label: "Co-authored",     labelEs: "Co-escrito",      emoji: "👥" },
+  collection: { label: "Collection",      labelEs: "Colección",       emoji: "📚" },
+  nonfiction: { label: "Non-fiction",     labelEs: "No ficción",      emoji: "📖" },
+  graphic:    { label: "Graphic Novel",   labelEs: "Novela gráfica",  emoji: "🎨" },
+  series:     { label: "Series",          labelEs: "Serie",           emoji: "⛓️" },
+  adapted:    { label: "Film/TV",         labelEs: "Película/TV",     emoji: "🎬" },
+  horror:     { label: "Horror",          labelEs: "Terror",          emoji: "👻" },
 };
 
 const I18N = {
@@ -561,9 +571,10 @@ function renderBooks() {
     return;
   }
 
-  filtered.forEach(book => {
+  filtered.forEach((book, index) => {
     const displayTitle = lang === "es" ? (book.titleEs || book.title) : book.title;
     const isRead = !!read[book.id];
+    const bookNumber = books.indexOf(book) + 1;
 
     const div = document.createElement("div");
     div.className = "book-item" + (isRead ? " read" : "") + (book.custom ? " custom" : "");
@@ -579,7 +590,7 @@ function renderBooks() {
     // text
     const span = document.createElement("span");
     span.className = "book-title";
-    let html = `${displayTitle} <span class="book-year">(${book.year})</span>`;
+    let html = `<span class="book-number">#${bookNumber}</span> ${displayTitle} <span class="book-year">(${book.year})</span>`;
     book.tags.forEach(t => {
       if (TAGS[t]) html += `<span class="book-tag" title="${lang==='es'?TAGS[t].labelEs:TAGS[t].label}">${TAGS[t].emoji}</span>`;
     });
