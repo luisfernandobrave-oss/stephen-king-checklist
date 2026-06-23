@@ -1,294 +1,284 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Stephen King – Reading Checklist</title>
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stephen King – Reading Checklist</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    body {
-      min-height: 100vh;
-      background: #0d0d0d;
-      color: #e8dcc8;
-      font-family: 'Georgia', serif;
-    }
+  :root {
+    --bg: #0d0d0d;
+    --bg-grad-top: #1a0a0a;
+    --header-border: #2a1a1a;
+    --text: #e8dcc8;
+    --text-dim: #7a6a5a;
+    --text-dimmer: #5a4a3a;
+    --accent: #8b0000;
+    --accent-bright: #c0392b;
+    --card-bg: #141414;
+    --card-border: #232323;
+    --card-border-hover: #3a3a3a;
+    --input-bg: #0d0d0d;
+    --input-border: #2a2a2a;
+    --btn-bg: #1a1a1a;
+    --btn-border: #2a2a2a;
+    --owned-color: #2a9a2a;
+    --owned-bg: #0d2a0d;
+    --owned-border: #1a5c1a;
+    --missing-color: #ff6b6b;
+    --missing-bg: rgba(139,0,0,0.08);
+    --missing-border: #3a1a1a;
+    --reading-color: #d4a017;
+    --reading-bg: #2a230d;
+    --reading-border: #5c4a1a;
+    --shadow: rgba(0,0,0,0.4);
+  }
 
-    /* HEADER */
-    #header {
-      text-align: center;
-      padding: 48px 24px 32px;
-      background: linear-gradient(180deg, #1a0a0a 0%, #0d0d0d 100%);
-      border-bottom: 1px solid #2a1a1a;
-      position: relative;
-      overflow: hidden;
-    }
-    #header::before {
-      content: '';
-      position: absolute; inset: 0;
-      background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,0,0,0.03) 2px, rgba(139,0,0,0.03) 4px);
-      pointer-events: none;
-    }
-    #lang-toggle {
-      position: absolute; top: 20px; right: 20px;
-      display: flex; border: 1px solid #2a2a2a; border-radius: 5px; overflow: hidden;
-    }
-    #lang-toggle button {
-      background: #1a1a1a; border: none; color: #5a4a3a;
-      padding: 6px 14px; cursor: pointer; font-size: 0.78rem;
-      font-family: Georgia, serif; letter-spacing: 0.1em; text-transform: uppercase;
-      transition: all 0.2s;
-    }
-    #lang-toggle button.active { background: #8b0000; color: #fff; }
+  [data-theme="light"] {
+    --bg: #f3ece0;
+    --bg-grad-top: #ffffff;
+    --header-border: #ddd0bb;
+    --text: #2c2014;
+    --text-dim: #8a7a64;
+    --text-dimmer: #a89878;
+    --accent: #a31621;
+    --accent-bright: #c0392b;
+    --card-bg: #ffffff;
+    --card-border: #e3d9c6;
+    --card-border-hover: #c9b896;
+    --input-bg: #ffffff;
+    --input-border: #d9cdb4;
+    --btn-bg: #ffffff;
+    --btn-border: #d9cdb4;
+    --owned-color: #1a7a1a;
+    --owned-bg: #e6f5e0;
+    --owned-border: #9ccf9c;
+    --missing-color: #c0392b;
+    --missing-bg: #fbe5e0;
+    --missing-border: #e0a898;
+    --reading-color: #9a7000;
+    --reading-bg: #fbf0d0;
+    --reading-border: #e0c878;
+    --shadow: rgba(0,0,0,0.12);
+  }
 
-    h1 {
-      font-size: clamp(2.5rem, 6vw, 4.5rem);
-      font-family: 'Palatino Linotype', 'Book Antiqua', serif;
-      color: #e8dcc8; letter-spacing: 0.04em;
-      text-shadow: 0 0 60px rgba(139,0,0,0.4); font-weight: normal;
-      margin-bottom: 4px;
-    }
-    h2 {
-      font-size: clamp(1rem, 2.5vw, 1.6rem);
-      font-family: 'Palatino Linotype', serif; color: #8b0000;
-      margin-bottom: 32px; letter-spacing: 0.3em;
-      text-transform: uppercase; font-weight: normal;
-    }
+  body {
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Georgia', serif;
+    transition: background 0.3s, color 0.3s;
+  }
 
-    /* PROGRESS */
-    #progress-wrap { max-width: 420px; margin: 0 auto 8px; }
-    #progress-bar-bg {
-      height: 6px; background: #1e1e1e; border-radius: 3px;
-      overflow: hidden; border: 1px solid #2a2a2a;
-    }
-    #progress-bar {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, #8b0000, #c0392b);
-      border-radius: 3px; transition: width 0.5s ease;
-      box-shadow: 0 0 12px rgba(139,0,0,0.6);
-    }
-    #progress-text { margin-top: 8px; font-size: 0.85rem; color: #7a6a5a; letter-spacing: 0.1em; }
+  /* HEADER */
+  #header {
+    text-align: center; padding: 44px 24px 28px;
+    background: linear-gradient(180deg, var(--bg-grad-top) 0%, var(--bg) 100%);
+    border-bottom: 1px solid var(--header-border);
+    position: relative; overflow: hidden;
+  }
+  #top-toggles {
+    position: absolute; top: 20px; right: 20px;
+    display: flex; gap: 8px; align-items: center;
+  }
+  #lang-toggle { display: flex; border: 1px solid var(--btn-border); border-radius: 5px; overflow: hidden; }
+  #lang-toggle button {
+    background: var(--btn-bg); border: none; color: var(--text-dim);
+    padding: 6px 14px; cursor: pointer; font-size: 0.78rem;
+    font-family: Georgia, serif; letter-spacing: 0.1em; text-transform: uppercase;
+    transition: all 0.2s;
+  }
+  #lang-toggle button.active { background: var(--accent); color: #fff; }
+  #theme-toggle {
+    background: var(--btn-bg); border: 1px solid var(--btn-border); color: var(--text);
+    border-radius: 5px; padding: 6px 12px; cursor: pointer; font-size: 0.95rem;
+  }
 
-    #progress-wrap-owned { max-width: 420px; margin: 12px auto 0; }
-    #progress-bar-bg-owned {
-      height: 6px; background: #1e1e1e; border-radius: 3px;
-      overflow: hidden; border: 1px solid #2a2a2a;
-    }
-    #progress-bar-owned {
-      height: 100%; width: 0%;
-      background: linear-gradient(90deg, #1a5c1a, #2a9a2a);
-      border-radius: 3px; transition: width 0.5s ease;
-      box-shadow: 0 0 12px rgba(42,154,42,0.5);
-    }
-    #progress-text-owned { margin-top: 8px; font-size: 0.85rem; color: #6a8a6a; letter-spacing: 0.1em; }
+  h1 {
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    color: var(--text); letter-spacing: 0.04em; font-weight: normal;
+    margin-bottom: 4px;
+  }
+  h2 {
+    font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+    font-family: 'Palatino Linotype', serif; color: var(--accent);
+    margin-bottom: 28px; letter-spacing: 0.3em;
+    text-transform: uppercase; font-weight: normal;
+  }
 
-    /* MISSING COUNTER */
-    #missing-counter {
-      max-width: 420px; margin: 18px auto 0;
-      display: flex; align-items: center; justify-content: center; gap: 10px;
-      background: rgba(139,0,0,0.08); border: 1px solid #3a1a1a; border-radius: 6px;
-      padding: 10px 18px; cursor: pointer; transition: all 0.2s;
-    }
-    #missing-counter:hover { background: rgba(139,0,0,0.14); border-color: #5a2a2a; }
-    #missing-counter .mc-icon { font-size: 1rem; }
-    #missing-counter .mc-text { font-size: 0.85rem; color: #cf9a9a; letter-spacing: 0.04em; }
-    #missing-counter .mc-count { color: #ff6b6b; font-weight: bold; }
+  /* PROGRESS */
+  #progress-wrap, #progress-wrap-owned { max-width: 420px; margin: 0 auto 8px; }
+  .bar-bg { height: 6px; background: var(--card-border); border-radius: 3px; overflow: hidden; border: 1px solid var(--input-border); }
+  #progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), var(--accent-bright)); border-radius: 3px; transition: width 0.5s ease; }
+  #progress-bar-owned { height: 100%; width: 0%; background: linear-gradient(90deg, var(--owned-border), var(--owned-color)); border-radius: 3px; transition: width 0.5s ease; }
+  #progress-text, #progress-text-owned { margin-top: 8px; font-size: 0.82rem; color: var(--text-dim); letter-spacing: 0.08em; }
 
-    /* CONTROLS */
-    #controls {
-      max-width: 1100px; margin: 0 auto;
-      padding: 24px 20px 0;
-      display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
-    }
-    #search {
-      flex: 1 1 200px;
-      background: #141414; border: 1px solid #2a2a2a; border-radius: 4px;
-      color: #e8dcc8; padding: 8px 14px; font-size: 0.9rem;
-      outline: none; font-family: Georgia, serif;
-    }
-    #filters { display: flex; gap: 6px; flex-wrap: wrap; }
-    .filter-btn {
-      background: #1a1a1a; border: 1px solid #2a2a2a; color: #7a6a5a;
-      border-radius: 4px; padding: 6px 14px; cursor: pointer;
-      font-size: 0.8rem; letter-spacing: 0.05em;
-      transition: all 0.2s; font-family: Georgia, serif;
-    }
-    .filter-btn.active { background: #8b0000; border-color: #8b0000; color: #fff; }
-    #add-btn {
-      background: #1a1a1a; border: 1px solid #8b0000; color: #e8dcc8;
-      border-radius: 4px; padding: 6px 16px; cursor: pointer;
-      font-size: 0.85rem; font-family: Georgia, serif; transition: all 0.2s;
-    }
-    #add-btn.open { background: #2a1a1a; }
+  #missing-counter {
+    max-width: 420px; margin: 16px auto 0;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    background: var(--missing-bg); border: 1px solid var(--missing-border); border-radius: 6px;
+    padding: 10px 18px; cursor: pointer; transition: all 0.2s;
+  }
+  #missing-counter:hover { filter: brightness(1.15); }
+  #missing-counter .mc-text { font-size: 0.85rem; color: var(--text); letter-spacing: 0.03em; }
+  #missing-counter .mc-count { color: var(--missing-color); font-weight: bold; }
 
-    /* ADD FORM */
-    #add-form {
-      max-width: 1100px; margin: 16px auto 0; padding: 0 20px;
-      display: none;
-    }
-    #add-form.visible { display: block; }
-    #add-form-inner {
-      background: #141414; border: 1px solid #2a1a1a; border-radius: 6px;
-      padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
-    }
-    .form-group { display: flex; flex-direction: column; }
-    .form-group label {
-      font-size: 0.75rem; color: #7a6a5a; margin-bottom: 6px;
-      letter-spacing: 0.1em; text-transform: uppercase;
-    }
-    .form-group input {
-      background: #0d0d0d; border: 1px solid #2a2a2a; border-radius: 4px;
-      color: #e8dcc8; padding: 8px 12px; font-size: 0.9rem;
-      outline: none; font-family: Georgia, serif;
-    }
-    #tag-btns { display: flex; gap: 6px; flex-wrap: wrap; }
-    .tag-btn {
-      background: #0d0d0d; border: 1px solid #2a2a2a; color: #5a4a3a;
-      border-radius: 3px; padding: 4px 10px; cursor: pointer;
-      font-size: 0.75rem; font-family: Georgia, serif; transition: all 0.2s;
-    }
-    .tag-btn.selected { background: #2a1010; border-color: #8b0000; color: #e8dcc8; }
-    #submit-btn {
-      background: #8b0000; border: none; color: #fff; border-radius: 4px;
-      padding: 9px 20px; cursor: pointer; font-size: 0.9rem;
-      font-family: Georgia, serif; white-space: nowrap;
-    }
+  /* CONTROLS BAR */
+  #controls {
+    max-width: 1200px; margin: 0 auto; padding: 22px 20px 0;
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+  }
+  #search {
+    flex: 1 1 200px; background: var(--input-bg); border: 1px solid var(--input-border);
+    border-radius: 4px; color: var(--text); padding: 8px 14px; font-size: 0.9rem;
+    outline: none; font-family: Georgia, serif;
+  }
+  #filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--btn-bg); border: 1px solid var(--btn-border); color: var(--text-dim);
+    border-radius: 4px; padding: 6px 13px; cursor: pointer;
+    font-size: 0.78rem; letter-spacing: 0.04em;
+    transition: all 0.2s; font-family: Georgia, serif; white-space: nowrap;
+  }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  #add-btn, #tag-manager-btn {
+    background: var(--btn-bg); border: 1px solid var(--accent); color: var(--text);
+    border-radius: 4px; padding: 6px 16px; cursor: pointer;
+    font-size: 0.85rem; font-family: Georgia, serif; transition: all 0.2s; white-space: nowrap;
+  }
+  #add-btn.open, #tag-manager-btn.open { background: var(--missing-bg); }
 
-    /* BOOK GRID */
-    #book-grid {
-      max-width: 1100px; margin: 24px auto 60px; padding: 0 20px;
-      columns: 3 280px; column-gap: 24px;
-    }
-    .book-item {
-      break-inside: avoid; margin-bottom: 2px;
-      display: flex; align-items: flex-start; gap: 8px;
-      padding: 6px 8px; border-radius: 3px;
-      background: transparent; transition: background 0.2s;
-      border-left: 2px solid transparent;
-      user-select: none;
-    }
-    .book-item.read {
-      background: rgba(139,0,0,0.06);
-      border-left-color: #8b0000;
-    }
-    .book-item:hover { background: rgba(255,255,255,0.02); }
-    .book-item.read:hover { background: rgba(139,0,0,0.09); }
+  #filter-groups { max-width: 1200px; margin: 10px auto 0; padding: 0 20px; display: flex; flex-direction: column; gap: 8px; }
+  .filter-group { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .filter-group-label { font-size: 0.7rem; color: var(--text-dimmer); letter-spacing: 0.12em; text-transform: uppercase; margin-right: 4px; min-width: 70px; }
 
-    .checkbox {
-      width: 14px; height: 14px; flex-shrink: 0; margin-top: 2px;
-      border: 1.5px solid #3a3a3a; border-radius: 2px;
-      background: transparent; display: flex; align-items: center;
-      justify-content: center; transition: all 0.2s; cursor: pointer;
-    }
-    .checkbox.read-cb.checked {
-      background: #8b0000; border-color: #8b0000;
-    }
-    .checkbox.owned-cb.checked {
-      background: #1a5c1a; border-color: #1a5c1a;
-    }
-    .checkbox svg { display: none; }
-    .checkbox.checked svg { display: block; }
+  /* FORMS (add book / tag manager) */
+  #add-form, #tag-form { max-width: 1200px; margin: 16px auto 0; padding: 0 20px; display: none; }
+  #add-form.visible, #tag-form.visible { display: block; }
+  .form-inner {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 6px;
+    padding: 20px; display: flex; flex-wrap: wrap; gap: 12px; align-items: flex-end;
+  }
+  .form-group { display: flex; flex-direction: column; }
+  .form-group label { font-size: 0.72rem; color: var(--text-dim); margin-bottom: 6px; letter-spacing: 0.1em; text-transform: uppercase; }
+  .form-group input { background: var(--input-bg); border: 1px solid var(--input-border); border-radius: 4px; color: var(--text); padding: 8px 12px; font-size: 0.9rem; outline: none; font-family: Georgia, serif; }
+  .form-group input[type="file"] { padding: 6px; font-size: 0.8rem; }
 
-    .book-title {
-      font-size: 0.85rem; color: #c8b898; line-height: 1.35;
-      transition: color 0.2s;
-    }
-    .book-item.read .book-title {
-      color: #5a4a3a;
-      text-decoration: line-through;
-      text-decoration-color: #5a3a2a;
-    }
-    .book-year { color: #4a3a2a; font-size: 0.75rem; }
-    .book-number {
-      color: #8b0000; font-weight: bold; font-size: 0.75rem;
-      margin-right: 4px; letter-spacing: 0.05em;
-    }
-    .book-item.read .book-number { color: #5a3a2a; }
-    .book-tag { margin-left: 3px; }
-    .owned-badge {
-      margin-left: 5px; font-size: 0.7rem; color: #2a9a2a;
-    }
-    .missing-badge {
-      margin-left: 5px; font-size: 0.7rem; color: #b03030;
-    }
-    .remove-btn {
-      margin-left: 6px; color: #5a2a2a; font-size: 0.7rem;
-      cursor: pointer;
-    }
+  #img-preview {
+    width: 56px; height: 80px; border-radius: 4px; object-fit: cover;
+    border: 1px solid var(--input-border); display: none; background: var(--input-bg);
+  }
+  #img-preview.show { display: block; }
 
-    #empty-msg {
-      color: #3a3a3a; text-align: center; padding: 40px 0;
-      display: none; grid-column: 1/-1;
-    }
+  #tag-btns, #tag-manager-list { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag-btn {
+    background: var(--input-bg); border: 1px solid var(--input-border); color: var(--text-dimmer);
+    border-radius: 3px; padding: 4px 10px; cursor: pointer;
+    font-size: 0.74rem; font-family: Georgia, serif; transition: all 0.2s;
+  }
+  .tag-btn.selected { background: var(--missing-bg); border-color: var(--accent); color: var(--text); }
+  .tag-manager-item {
+    display: flex; align-items: center; gap: 6px; background: var(--input-bg);
+    border: 1px solid var(--input-border); border-radius: 4px; padding: 5px 10px; font-size: 0.78rem;
+  }
+  .tag-manager-item .tm-remove { color: var(--missing-color); cursor: pointer; font-size: 0.75rem; }
 
-    /* EXPORT / IMPORT */
-    #backup-bar {
-      max-width: 1100px; margin: 0 auto 0; padding: 0 20px 20px;
-      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
-    }
-    .backup-btn {
-      display: flex; align-items: center; gap: 6px;
-      border-radius: 4px; padding: 7px 16px; cursor: pointer;
-      font-size: 0.82rem; font-family: Georgia, serif;
-      transition: all 0.2s; letter-spacing: 0.03em;
-    }
-    #export-btn {
-      background: #0d2a0d; border: 1px solid #1a5c1a; color: #7ecf7e;
-    }
-    #export-btn:hover { background: #142e14; border-color: #2a7a2a; }
-    #import-label {
-      background: #0d1a2a; border: 1px solid #1a3a5c; color: #7eb8cf;
-      display: flex; align-items: center; gap: 6px;
-      border-radius: 4px; padding: 7px 16px; cursor: pointer;
-      font-size: 0.82rem; font-family: Georgia, serif;
-      transition: all 0.2s;
-    }
-    #import-label:hover { background: #142230; border-color: #2a5a7a; }
-    #import-input { display: none; }
-    #backup-msg {
-      font-size: 0.78rem; color: #5a7a5a; letter-spacing: 0.05em;
-      opacity: 0; transition: opacity 0.4s;
-    }
-    #backup-msg.show { opacity: 1; }
+  #submit-btn, #submit-tag-btn { background: var(--accent); border: none; color: #fff; border-radius: 4px; padding: 9px 20px; cursor: pointer; font-size: 0.9rem; font-family: Georgia, serif; white-space: nowrap; }
 
-    /* LEGEND */
-    #legend {
-      border-top: 1px solid #1a1a1a; padding: 20px;
-      display: flex; justify-content: center;
-      flex-wrap: wrap; gap: 16px 32px;
-    }
-    .legend-item { font-size: 0.75rem; color: #5a4a3a; letter-spacing: 0.05em; }
+  /* BOOK GRID — now card based */
+  #book-grid {
+    max-width: 1200px; margin: 26px auto 60px; padding: 0 20px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 18px;
+  }
+  .book-card {
+    background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px;
+    padding: 12px; display: flex; flex-direction: column; gap: 8px;
+    transition: border-color 0.2s, transform 0.15s;
+    position: relative;
+  }
+  .book-card:hover { border-color: var(--card-border-hover); }
+  .book-card.is-read { box-shadow: inset 3px 0 0 var(--accent); }
+  .book-card.is-reading { box-shadow: inset 3px 0 0 var(--reading-color); }
 
-    /* INFO BOX */
-    #info-box {
-      max-width: 1100px; margin: 0 auto; padding: 0 20px 8px;
-      font-size: 0.78rem; color: #6a5a4a; line-height: 1.5;
-    }
-    #info-box code {
-      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 3px;
-      padding: 1px 6px; color: #c8b898; font-family: monospace; font-size: 0.78rem;
-    }
-  </style>
+  .thumb-wrap {
+    width: 100%; aspect-ratio: 2/3; border-radius: 6px; overflow: hidden;
+    background: var(--input-bg); border: 1px solid var(--input-border);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; position: relative;
+  }
+  .thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .thumb-placeholder { font-size: 1.8rem; color: var(--text-dimmer); }
+  .thumb-wrap input[type="file"] { display: none; }
+  .thumb-edit-hint {
+    position: absolute; bottom: 0; left: 0; right: 0; text-align: center;
+    background: rgba(0,0,0,0.55); color: #fff; font-size: 0.65rem; padding: 3px 0;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .thumb-wrap:hover .thumb-edit-hint { opacity: 1; }
+
+  .book-number { color: var(--accent); font-weight: bold; font-size: 0.7rem; letter-spacing: 0.05em; }
+  .book-title { font-size: 0.85rem; color: var(--text); line-height: 1.3; }
+  .book-card.is-read .book-title { color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--text-dimmer); }
+  .book-year { color: var(--text-dimmer); font-size: 0.72rem; }
+  .book-tags-row { display: flex; flex-wrap: wrap; gap: 3px; font-size: 0.85rem; }
+
+  .controls-row { display: flex; flex-direction: column; gap: 5px; margin-top: 4px; }
+  .status-btns { display: flex; gap: 4px; }
+  .status-btn {
+    flex: 1; text-align: center; font-size: 0.68rem; padding: 5px 2px; border-radius: 4px;
+    border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-dimmer);
+    cursor: pointer; transition: all 0.15s; letter-spacing: 0.02em;
+  }
+  .status-btn.active.unread { background: var(--input-bg); border-color: var(--card-border-hover); color: var(--text); }
+  .status-btn.active.reading { background: var(--reading-bg); border-color: var(--reading-border); color: var(--reading-color); }
+  .status-btn.active.read { background: var(--missing-bg); border-color: var(--accent); color: var(--accent); }
+  .owned-btn {
+    width: 100%; text-align: center; font-size: 0.7rem; padding: 5px 2px; border-radius: 4px;
+    border: 1px solid var(--input-border); background: var(--input-bg); color: var(--text-dimmer);
+    cursor: pointer; transition: all 0.15s;
+  }
+  .owned-btn.is-owned { background: var(--owned-bg); border-color: var(--owned-border); color: var(--owned-color); }
+  .owned-btn.is-missing { background: var(--missing-bg); border-color: var(--missing-border); color: var(--missing-color); }
+
+  .remove-btn { position: absolute; top: 8px; right: 8px; color: var(--text-dimmer); font-size: 0.75rem; cursor: pointer; background: var(--card-bg); border-radius: 50%; width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; }
+  .book-card:hover .remove-btn { opacity: 1; }
+
+  /* BACKUP BAR */
+  #backup-bar { max-width: 1200px; margin: 0 auto; padding: 16px 20px 0; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .backup-btn { display: flex; align-items: center; gap: 6px; border-radius: 4px; padding: 7px 16px; cursor: pointer; font-size: 0.8rem; font-family: Georgia, serif; transition: all 0.2s; }
+  #export-btn { background: var(--owned-bg); border: 1px solid var(--owned-border); color: var(--owned-color); }
+  #import-label { background: var(--reading-bg); border: 1px solid var(--reading-border); color: var(--reading-color); display: flex; align-items: center; gap: 6px; border-radius: 4px; padding: 7px 16px; cursor: pointer; font-size: 0.8rem; font-family: Georgia, serif; transition: all 0.2s; }
+  #import-input { display: none; }
+  #backup-msg { font-size: 0.76rem; color: var(--owned-color); letter-spacing: 0.04em; opacity: 0; transition: opacity 0.4s; }
+  #backup-msg.show { opacity: 1; }
+
+  #empty-msg { color: var(--text-dimmer); text-align: center; padding: 40px 0; grid-column: 1/-1; }
+</style>
 </head>
-<body>
+<body data-theme="dark">
 
 <!-- HEADER -->
 <div id="header">
-  <div id="lang-toggle">
-    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-    <button id="btn-es" onclick="setLang('es')">ES</button>
+  <div id="top-toggles">
+    <button id="theme-toggle" onclick="toggleTheme()" title="Tema">🌙</button>
+    <div id="lang-toggle">
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <button id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
   </div>
   <h1>Stephen King</h1>
   <h2 id="subtitle">Reading Checklist</h2>
   <div id="progress-wrap">
-    <div id="progress-bar-bg"><div id="progress-bar"></div></div>
+    <div class="bar-bg"><div id="progress-bar"></div></div>
     <p id="progress-text"></p>
   </div>
   <div id="progress-wrap-owned">
-    <div id="progress-bar-bg-owned"><div id="progress-bar-owned"></div></div>
+    <div class="bar-bg"><div id="progress-bar-owned"></div></div>
     <p id="progress-text-owned"></p>
   </div>
-  <div id="missing-counter" onclick="setFilter('missing')">
+  <div id="missing-counter" onclick="setFilter('status','missing')">
     <span class="mc-icon">🛒</span>
     <span class="mc-text"><span class="mc-count" id="missing-count">0</span> <span id="missing-label">books to buy</span></span>
   </div>
@@ -297,33 +287,29 @@
 <!-- CONTROLS -->
 <div id="controls">
   <input id="search" type="text" placeholder="Search book..." oninput="renderBooks()" />
-  <div id="filters">
-    <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">All</button>
-    <button class="filter-btn" data-filter="read" onclick="setFilter('read')">Read</button>
-    <button class="filter-btn" data-filter="unread" onclick="setFilter('unread')">Unread</button>
-    <button class="filter-btn" data-filter="owned" onclick="setFilter('owned')">Owned</button>
-    <button class="filter-btn" data-filter="missing" onclick="setFilter('missing')">Missing</button>
-    <button class="filter-btn" data-filter="collection" onclick="setFilter('collection')">Collection</button>
-    <button class="filter-btn" data-filter="bachman" onclick="setFilter('bachman')">Bachman</button>
-  </div>
   <button id="add-btn" onclick="toggleAddForm()">+ Add book</button>
+  <button id="tag-manager-btn" onclick="toggleTagForm()">🏷 Tags</button>
 </div>
+
+<div id="filter-groups"></div>
 
 <!-- BACKUP BAR -->
 <div id="backup-bar">
-  <button class="backup-btn" id="export-btn" onclick="exportProgress()">
-    ⬇ <span id="lbl-export">Export progress</span>
-  </button>
-  <label id="import-label">
-    ⬆ <span id="lbl-import">Import progress</span>
+  <button class="backup-btn" id="export-btn" onclick="exportProgress()">⬇ <span id="lbl-export">Export progress</span></button>
+  <label id="import-label">⬆ <span id="lbl-import">Import progress</span>
     <input type="file" id="import-input" accept=".json" onchange="importProgress(event)" />
   </label>
   <span id="backup-msg"></span>
 </div>
 
-<!-- ADD FORM -->
+<!-- ADD BOOK FORM -->
 <div id="add-form">
-  <div id="add-form-inner">
+  <div class="form-inner">
+    <img id="img-preview" />
+    <div class="form-group" style="flex: 0 1 150px">
+      <label id="lbl-image">Cover image</label>
+      <input id="inp-image" type="file" accept="image/*" onchange="previewImage(event)" />
+    </div>
     <div class="form-group" style="flex: 2 1 170px">
       <label id="lbl-title-en">Title (English)</label>
       <input id="inp-title" placeholder="The Shining" />
@@ -344,22 +330,41 @@
   </div>
 </div>
 
+<!-- TAG MANAGER FORM -->
+<div id="tag-form">
+  <div class="form-inner">
+    <div class="form-group" style="flex: 1 1 90px">
+      <label id="lbl-tag-emoji">Emoji</label>
+      <input id="inp-tag-emoji" placeholder="🔥" style="width:70px;text-align:center" />
+    </div>
+    <div class="form-group" style="flex: 1 1 160px">
+      <label id="lbl-tag-name-en">Name (English)</label>
+      <input id="inp-tag-name-en" placeholder="Favorite" />
+    </div>
+    <div class="form-group" style="flex: 1 1 160px">
+      <label id="lbl-tag-name-es">Name (Spanish)</label>
+      <input id="inp-tag-name-es" placeholder="Favorito" />
+    </div>
+    <button id="submit-tag-btn" onclick="addCustomTag()">Create tag</button>
+    <div class="form-group" style="flex: 1 1 100%">
+      <label id="lbl-existing-tags">Your custom tags</label>
+      <div id="tag-manager-list"></div>
+    </div>
+  </div>
+</div>
+
 <!-- BOOK GRID -->
 <div id="book-grid"></div>
 
-<!-- LEGEND -->
-<div id="legend"></div>
-
 <script>
 // ── DATA ──────────────────────────────────────────────────────────────────────
-// Empty on purpose. Add your own books either via the "+ Add book" form,
-// or by pasting objects into this array, e.g.:
-// { id: 1, title: "The Shining", titleEs: "El resplandor", year: 1977, tags: [] },
+// Empty on purpose. Add books with the "+ Add book" form, or paste objects here:
+// { id: 1, title: "The Shining", titleEs: "El resplandor", year: 1977, tags: [], image: null }
 const INITIAL_BOOKS = [
 
 ];
 
-const TAGS = {
+const BASE_TAGS = {
   bachman:    { label: "Richard Bachman", labelEs: "Richard Bachman", emoji: "🎭" },
   coauthored: { label: "Co-authored",     labelEs: "Co-escrito",      emoji: "👥" },
   collection: { label: "Collection",      labelEs: "Colección",       emoji: "📚" },
@@ -373,52 +378,72 @@ const TAGS = {
 const I18N = {
   en: {
     subtitle: "Reading Checklist", read: "read", owned: "owned", search: "Search book...",
-    all: "All", readF: "Read", unread: "Unread", ownedF: "Owned", missingF: "Missing", collection: "Collection",
-    addBtn: "+ Add book", addBtnOpen: "✕ Close",
-    lblTitleEn: "Title (English)", lblTitleEs: "Title (Spanish)",
+    statusLabel: "Status", ownedLabel: "Acquisition", tagsLabel: "Tags & genres",
+    all: "All", readF: "Read", reading: "Reading", unread: "Unread", ownedF: "Owned", missingF: "Missing",
+    addBtn: "+ Add book", addBtnOpen: "✕ Close", tagBtn: "🏷 Tags", tagBtnOpen: "✕ Close",
+    lblImage: "Cover image", lblTitleEn: "Title (English)", lblTitleEs: "Title (Spanish)",
     lblYear: "Year", lblTags: "Tags", submit: "Add",
+    lblTagEmoji: "Emoji", lblTagNameEn: "Name (English)", lblTagNameEs: "Name (Spanish)",
+    submitTag: "Create tag", lblExistingTags: "Your custom tags",
     empty: "No books found.",
     export: "Export progress", import: "Import progress",
     exportOk: "✓ Progress exported!", importOk: "✓ Progress imported!", importErr: "⚠ Invalid file.",
-    info: 'Tip: you can also bulk-add books directly in the code. Open the script and add objects to the <code>INITIAL_BOOKS</code> array, e.g. <code>{ id: 1, title: "The Shining", titleEs: "El resplandor", year: 1977, tags: [] }</code>',
-    ownedTitle: "Owned", missingTitle: "Need to buy", missingLabel: "books to buy", missingLabelOne: "book to buy",
+    missingLabel: "books to buy", missingLabelOne: "book to buy",
+    statusUnread: "Unread", statusReading: "Reading", statusRead: "Read",
+    ownedYes: "Owned", ownedNo: "Need to buy", changeImg: "Change cover",
   },
   es: {
     subtitle: "Lista de Lectura", read: "leídos", owned: "tengo", search: "Buscar libro...",
-    all: "Todos", readF: "Leídos", unread: "Pendientes", ownedF: "Tengo", missingF: "Me falta", collection: "Colección",
-    addBtn: "+ Agregar libro", addBtnOpen: "✕ Cerrar",
-    lblTitleEn: "Título (inglés)", lblTitleEs: "Título (español)",
+    statusLabel: "Estado", ownedLabel: "Adquisición", tagsLabel: "Etiquetas y géneros",
+    all: "Todos", readF: "Leídos", reading: "Leyendo", unread: "Pendientes", ownedF: "Tengo", missingF: "Me falta",
+    addBtn: "+ Agregar libro", addBtnOpen: "✕ Cerrar", tagBtn: "🏷 Etiquetas", tagBtnOpen: "✕ Cerrar",
+    lblImage: "Portada", lblTitleEn: "Título (inglés)", lblTitleEs: "Título (español)",
     lblYear: "Año", lblTags: "Etiquetas", submit: "Agregar",
+    lblTagEmoji: "Emoji", lblTagNameEn: "Nombre (inglés)", lblTagNameEs: "Nombre (español)",
+    submitTag: "Crear etiqueta", lblExistingTags: "Tus etiquetas personalizadas",
     empty: "No se encontraron libros.",
     export: "Exportar progreso", import: "Importar progreso",
     exportOk: "✓ ¡Progreso exportado!", importOk: "✓ ¡Progreso importado!", importErr: "⚠ Archivo inválido.",
-    info: 'Consejo: también puedes agregar libros en bloque directamente en el código. Abre el script y añade objetos al arreglo <code>INITIAL_BOOKS</code>, por ejemplo: <code>{ id: 1, title: "The Shining", titleEs: "El resplandor", year: 1977, tags: [] }</code>',
-    ownedTitle: "Lo tengo", missingTitle: "Falta comprarlo", missingLabel: "libros por comprar", missingLabelOne: "libro por comprar",
+    missingLabel: "libros por comprar", missingLabelOne: "libro por comprar",
+    statusUnread: "Pendiente", statusReading: "Leyendo", statusRead: "Leído",
+    ownedYes: "Lo tengo", ownedNo: "Falta comprarlo", changeImg: "Cambiar portada",
   }
 };
 
 // ── STATE ─────────────────────────────────────────────────────────────────────
-let books  = JSON.parse(localStorage.getItem("sk_books_v3")  || "null") || INITIAL_BOOKS;
-let read   = JSON.parse(localStorage.getItem("sk_read")      || "{}");
-let owned  = JSON.parse(localStorage.getItem("sk_owned")     || "{}");
-let lang   = localStorage.getItem("sk_lang") || "en";
-let filter = "all";
-let addFormOpen = false;
+let books      = JSON.parse(localStorage.getItem("sk_books_v4")  || "null") || INITIAL_BOOKS;
+let customTags = JSON.parse(localStorage.getItem("sk_custom_tags") || "{}");
+let lang       = localStorage.getItem("sk_lang") || "en";
+let theme      = localStorage.getItem("sk_theme") || "dark";
+let addFormOpen = false, tagFormOpen = false;
 let selectedTags = [];
+let pendingImage = null;
+
+// active filters: status -> 'all'|'unread'|'reading'|'read'
+// owned -> 'all'|'owned'|'missing'
+// tag -> tag key or 'all'
+let activeFilters = { status: "all", owned: "all", tag: "all" };
+
+function allTags() { return { ...BASE_TAGS, ...customTags }; }
 
 function save() {
-  localStorage.setItem("sk_books_v3", JSON.stringify(books));
-  localStorage.setItem("sk_read",      JSON.stringify(read));
-  localStorage.setItem("sk_owned",     JSON.stringify(owned));
-  localStorage.setItem("sk_lang",      lang);
+  localStorage.setItem("sk_books_v4", JSON.stringify(books));
+  localStorage.setItem("sk_custom_tags", JSON.stringify(customTags));
+  localStorage.setItem("sk_lang", lang);
+  localStorage.setItem("sk_theme", theme);
+}
+
+// ── THEME ─────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  theme = theme === "dark" ? "light" : "dark";
+  document.body.setAttribute("data-theme", theme);
+  document.getElementById("theme-toggle").textContent = theme === "dark" ? "🌙" : "☀️";
+  save();
 }
 
 // ── LANG ──────────────────────────────────────────────────────────────────────
 function setLang(l) {
-  lang = l;
-  save();
-  applyLang();
-  renderBooks();
+  lang = l; save(); applyLang(); renderBooks();
 }
 
 function applyLang() {
@@ -428,28 +453,73 @@ function applyLang() {
   document.getElementById("btn-en").classList.toggle("active", lang === "en");
   document.getElementById("btn-es").classList.toggle("active", lang === "es");
   document.getElementById("add-btn").textContent  = addFormOpen ? t.addBtnOpen : t.addBtn;
+  document.getElementById("tag-manager-btn").textContent = tagFormOpen ? t.tagBtnOpen : t.tagBtn;
+  document.getElementById("lbl-image").textContent    = t.lblImage;
   document.getElementById("lbl-title-en").textContent = t.lblTitleEn;
   document.getElementById("lbl-title-es").textContent = t.lblTitleEs;
   document.getElementById("lbl-year").textContent     = t.lblYear;
   document.getElementById("lbl-tags").textContent     = t.lblTags;
   document.getElementById("submit-btn").textContent   = t.submit;
+  document.getElementById("lbl-tag-emoji").textContent    = t.lblTagEmoji;
+  document.getElementById("lbl-tag-name-en").textContent  = t.lblTagNameEn;
+  document.getElementById("lbl-tag-name-es").textContent  = t.lblTagNameEs;
+  document.getElementById("submit-tag-btn").textContent   = t.submitTag;
+  document.getElementById("lbl-existing-tags").textContent = t.lblExistingTags;
   document.getElementById("lbl-export").textContent   = t.export;
   document.getElementById("lbl-import").textContent   = t.import;
-  // filter buttons
-  const fb = document.querySelectorAll(".filter-btn");
-  const labels = [t.all, t.readF, t.unread, t.ownedF, t.missingF, t.collection, "Bachman"];
-  fb.forEach((b, i) => b.textContent = labels[i]);
+  document.getElementById("theme-toggle").textContent = theme === "dark" ? "🌙" : "☀️";
   renderTagButtons();
-  renderLegend();
+  renderTagManagerList();
+  renderFilterGroups();
   updateProgress();
 }
 
-// ── FILTER ────────────────────────────────────────────────────────────────────
-function setFilter(f) {
-  filter = f;
-  document.querySelectorAll(".filter-btn").forEach(b =>
-    b.classList.toggle("active", b.dataset.filter === f)
-  );
+// ── FILTER GROUPS (status / owned / tags) ────────────────────────────────────
+function renderFilterGroups() {
+  const t = I18N[lang];
+  const wrap = document.getElementById("filter-groups");
+  wrap.innerHTML = "";
+
+  const statusGroup = makeFilterGroup(t.statusLabel, [
+    { key: "all", label: t.all }, { key: "unread", label: t.unread },
+    { key: "reading", label: t.reading }, { key: "read", label: t.readF },
+  ], "status");
+
+  const ownedGroup = makeFilterGroup(t.ownedLabel, [
+    { key: "all", label: t.all }, { key: "owned", label: t.ownedF }, { key: "missing", label: t.missingF },
+  ], "owned");
+
+  const tagOptions = [{ key: "all", label: t.all }];
+  Object.entries(allTags()).forEach(([key, cfg]) => {
+    tagOptions.push({ key, label: cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label) });
+  });
+  const tagGroup = makeFilterGroup(t.tagsLabel, tagOptions, "tag");
+
+  wrap.appendChild(statusGroup);
+  wrap.appendChild(ownedGroup);
+  wrap.appendChild(tagGroup);
+}
+
+function makeFilterGroup(labelText, options, groupKey) {
+  const row = document.createElement("div");
+  row.className = "filter-group";
+  const label = document.createElement("span");
+  label.className = "filter-group-label";
+  label.textContent = labelText;
+  row.appendChild(label);
+  options.forEach(opt => {
+    const b = document.createElement("button");
+    b.className = "filter-btn" + (activeFilters[groupKey] === opt.key ? " active" : "");
+    b.textContent = opt.label;
+    b.onclick = () => setFilter(groupKey, opt.key);
+    row.appendChild(b);
+  });
+  return row;
+}
+
+function setFilter(group, key) {
+  activeFilters[group] = key;
+  renderFilterGroups();
   renderBooks();
 }
 
@@ -461,15 +531,22 @@ function toggleAddForm() {
   document.getElementById("add-btn").classList.toggle("open", addFormOpen);
 }
 
+function toggleTagForm() {
+  tagFormOpen = !tagFormOpen;
+  document.getElementById("tag-form").classList.toggle("visible", tagFormOpen);
+  document.getElementById("tag-manager-btn").textContent = tagFormOpen ? I18N[lang].tagBtnOpen : I18N[lang].tagBtn;
+  document.getElementById("tag-manager-btn").classList.toggle("open", tagFormOpen);
+}
+
 function renderTagButtons() {
   const wrap = document.getElementById("tag-btns");
   wrap.innerHTML = "";
-  Object.entries(TAGS).forEach(([key, cfg]) => {
+  Object.entries(allTags()).forEach(([key, cfg]) => {
     const b = document.createElement("button");
     b.className = "tag-btn" + (selectedTags.includes(key) ? " selected" : "");
     b.textContent = cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label);
     b.onclick = () => {
-      if (selectedTags.includes(key)) selectedTags = selectedTags.filter(t => t !== key);
+      if (selectedTags.includes(key)) selectedTags = selectedTags.filter(x => x !== key);
       else selectedTags.push(key);
       renderTagButtons();
     };
@@ -477,67 +554,126 @@ function renderTagButtons() {
   });
 }
 
+function previewImage(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    pendingImage = e.target.result;
+    const img = document.getElementById("img-preview");
+    img.src = pendingImage;
+    img.classList.add("show");
+  };
+  reader.readAsDataURL(file);
+}
+
 function addBook() {
   const title = document.getElementById("inp-title").value.trim();
   if (!title) return;
   const titleEs = document.getElementById("inp-title-es").value.trim() || title;
   const year    = parseInt(document.getElementById("inp-year").value) || new Date().getFullYear();
-  books.push({ id: Date.now(), title, titleEs, year, tags: [...selectedTags] });
+  books.push({
+    id: Date.now(), title, titleEs, year, tags: [...selectedTags],
+    image: pendingImage, status: "unread", owned: false,
+  });
   books.sort((a, b) => a.year - b.year);
   document.getElementById("inp-title").value    = "";
   document.getElementById("inp-title-es").value = "";
   document.getElementById("inp-year").value     = "";
+  document.getElementById("inp-image").value    = "";
+  document.getElementById("img-preview").classList.remove("show");
   selectedTags = [];
-  save(); renderTagButtons(); renderBooks(); updateProgress();
+  pendingImage = null;
+  save(); renderTagButtons(); renderBooks(); updateProgress(); renderFilterGroups();
 }
 
 function removeBook(id, e) {
   e.stopPropagation();
   books = books.filter(b => b.id !== id);
-  delete read[id];
-  delete owned[id];
   save(); renderBooks(); updateProgress();
 }
 
-// ── TOGGLE READ / OWNED ───────────────────────────────────────────────────────
-function toggleRead(id, e) {
-  e.stopPropagation();
-  read[id] = !read[id];
-  save();
-  const el = document.querySelector(`.book-item[data-id="${id}"]`);
-  if (el) {
-    el.classList.toggle("read", !!read[id]);
-    el.querySelector(".read-cb").classList.toggle("checked", !!read[id]);
+// ── CUSTOM TAGS ───────────────────────────────────────────────────────────────
+function addCustomTag() {
+  const emoji = document.getElementById("inp-tag-emoji").value.trim() || "🏷";
+  const nameEn = document.getElementById("inp-tag-name-en").value.trim();
+  const nameEs = document.getElementById("inp-tag-name-es").value.trim() || nameEn;
+  if (!nameEn) return;
+  const key = "custom_" + Date.now();
+  customTags[key] = { label: nameEn, labelEs: nameEs, emoji };
+  document.getElementById("inp-tag-emoji").value = "";
+  document.getElementById("inp-tag-name-en").value = "";
+  document.getElementById("inp-tag-name-es").value = "";
+  save(); renderTagManagerList(); renderTagButtons(); renderFilterGroups();
+}
+
+function removeCustomTag(key) {
+  delete customTags[key];
+  books.forEach(b => { b.tags = b.tags.filter(t => t !== key); });
+  if (activeFilters.tag === key) activeFilters.tag = "all";
+  save(); renderTagManagerList(); renderTagButtons(); renderFilterGroups(); renderBooks();
+}
+
+function renderTagManagerList() {
+  const wrap = document.getElementById("tag-manager-list");
+  wrap.innerHTML = "";
+  const entries = Object.entries(customTags);
+  if (entries.length === 0) {
+    const span = document.createElement("span");
+    span.style.cssText = "color:var(--text-dimmer);font-size:0.78rem";
+    span.textContent = lang === "es" ? "Aún no has creado etiquetas." : "No custom tags yet.";
+    wrap.appendChild(span);
+    return;
   }
-  updateProgress();
+  entries.forEach(([key, cfg]) => {
+    const item = document.createElement("div");
+    item.className = "tag-manager-item";
+    item.innerHTML = `<span>${cfg.emoji} ${lang === "es" ? cfg.labelEs : cfg.label}</span> <span class="tm-remove" onclick="removeCustomTag('${key}')">✕</span>`;
+    wrap.appendChild(item);
+  });
+}
+
+// ── STATUS / OWNED toggles ────────────────────────────────────────────────────
+function setStatus(id, status, e) {
+  e.stopPropagation();
+  const book = books.find(b => b.id === id);
+  book.status = book.status === status ? "unread" : status;
+  save(); renderBooks(); updateProgress();
 }
 
 function toggleOwned(id, e) {
   e.stopPropagation();
-  owned[id] = !owned[id];
-  save();
-  renderBooks();
-  updateProgress();
+  const book = books.find(b => b.id === id);
+  book.owned = !book.owned;
+  save(); renderBooks(); updateProgress();
+}
+
+function changeImage(id, event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const book = books.find(b => b.id === id);
+    book.image = e.target.result;
+    save(); renderBooks();
+  };
+  reader.readAsDataURL(file);
 }
 
 // ── PROGRESS ──────────────────────────────────────────────────────────────────
 function updateProgress() {
   const total    = books.length;
-  const readCnt  = books.filter(b => read[b.id]).length;
-  const ownedCnt = books.filter(b => owned[b.id]).length;
+  const readCnt  = books.filter(b => b.status === "read").length;
+  const ownedCnt = books.filter(b => b.owned).length;
   const pctRead  = total ? Math.round((readCnt  / total) * 100) : 0;
   const pctOwned = total ? Math.round((ownedCnt / total) * 100) : 0;
   document.getElementById("progress-bar").style.width = pctRead + "%";
-  document.getElementById("progress-text").textContent =
-    `${readCnt} / ${total} ${I18N[lang].read} · ${pctRead}%`;
+  document.getElementById("progress-text").textContent = `${readCnt} / ${total} ${I18N[lang].read} · ${pctRead}%`;
   document.getElementById("progress-bar-owned").style.width = pctOwned + "%";
-  document.getElementById("progress-text-owned").textContent =
-    `${ownedCnt} / ${total} ${I18N[lang].owned} · ${pctOwned}%`;
-
+  document.getElementById("progress-text-owned").textContent = `${ownedCnt} / ${total} ${I18N[lang].owned} · ${pctOwned}%`;
   const missingCnt = total - ownedCnt;
   document.getElementById("missing-count").textContent = missingCnt;
-  document.getElementById("missing-label").textContent =
-    missingCnt === 1 ? I18N[lang].missingLabelOne : I18N[lang].missingLabel;
+  document.getElementById("missing-label").textContent = missingCnt === 1 ? I18N[lang].missingLabelOne : I18N[lang].missingLabel;
 }
 
 // ── RENDER BOOKS ──────────────────────────────────────────────────────────────
@@ -545,80 +681,114 @@ function renderBooks() {
   const query = document.getElementById("search").value.toLowerCase();
   const grid  = document.getElementById("book-grid");
   grid.innerHTML = "";
+  const t = I18N[lang];
 
   const filtered = books.filter(b => {
-    const matchFilter =
-      filter === "all" ||
-      (filter === "read"    && read[b.id])   ||
-      (filter === "unread"  && !read[b.id])  ||
-      (filter === "owned"   && owned[b.id])  ||
-      (filter === "missing" && !owned[b.id]) ||
-      b.tags.includes(filter);
+    const matchStatus = activeFilters.status === "all" || b.status === activeFilters.status ||
+      (activeFilters.status === "unread" && !b.status);
+    const matchOwned = activeFilters.owned === "all" ||
+      (activeFilters.owned === "owned" && b.owned) ||
+      (activeFilters.owned === "missing" && !b.owned);
+    const matchTag = activeFilters.tag === "all" || b.tags.includes(activeFilters.tag);
     const displayTitle = lang === "es" ? (b.titleEs || b.title) : b.title;
-    return matchFilter && displayTitle.toLowerCase().includes(query);
+    const matchSearch = displayTitle.toLowerCase().includes(query);
+    return matchStatus && matchOwned && matchTag && matchSearch;
   });
 
   if (filtered.length === 0) {
     const p = document.createElement("p");
-    p.style.cssText = "color:#3a3a3a;text-align:center;padding:40px 0";
-    p.textContent = I18N[lang].empty;
+    p.id = "empty-msg";
+    p.textContent = t.empty;
     grid.appendChild(p);
     return;
   }
 
-  filtered.forEach((book) => {
+  const tags = allTags();
+
+  filtered.forEach(book => {
     const displayTitle = lang === "es" ? (book.titleEs || book.title) : book.title;
-    const isRead  = !!read[book.id];
-    const isOwned = !!owned[book.id];
+    const status = book.status || "unread";
+    const isOwned = !!book.owned;
     const bookNumber = books.indexOf(book) + 1;
 
-    const div = document.createElement("div");
-    div.className = "book-item" + (isRead ? " read" : "");
-    div.dataset.id = book.id;
+    const card = document.createElement("div");
+    card.className = "book-card" + (status === "read" ? " is-read" : "") + (status === "reading" ? " is-reading" : "");
 
-    // read checkbox
-    const cbRead = document.createElement("div");
-    cbRead.className = "checkbox read-cb" + (isRead ? " checked" : "");
-    cbRead.title = lang === "es" ? "Marcar como leído" : "Mark as read";
-    cbRead.innerHTML = `<svg width="9" height="7" viewBox="0 0 9 7" fill="none"><path d="M1 3.5L3.5 6L8 1" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    cbRead.onclick = (e) => toggleRead(book.id, e);
-    div.appendChild(cbRead);
+    // remove button
+    const rm = document.createElement("span");
+    rm.className = "remove-btn";
+    rm.textContent = "✕";
+    rm.onclick = (e) => removeBook(book.id, e);
+    card.appendChild(rm);
 
-    // owned checkbox
-    const cbOwned = document.createElement("div");
-    cbOwned.className = "checkbox owned-cb" + (isOwned ? " checked" : "");
-    cbOwned.title = lang === "es" ? (isOwned ? "Lo tengo" : "Falta comprarlo") : (isOwned ? "Owned" : "Need to buy");
-    cbOwned.innerHTML = `<svg width="9" height="9" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5H7.5M4.5 1.5V7.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>`;
-    cbOwned.onclick = (e) => toggleOwned(book.id, e);
-    div.appendChild(cbOwned);
+    // thumbnail (clickable to upload/change image)
+    const thumbWrap = document.createElement("label");
+    thumbWrap.className = "thumb-wrap";
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.onchange = (e) => changeImage(book.id, e);
+    thumbWrap.appendChild(fileInput);
+    if (book.image) {
+      const img = document.createElement("img");
+      img.src = book.image;
+      thumbWrap.appendChild(img);
+    } else {
+      const ph = document.createElement("span");
+      ph.className = "thumb-placeholder";
+      ph.textContent = "📕";
+      thumbWrap.appendChild(ph);
+    }
+    const hint = document.createElement("span");
+    hint.className = "thumb-edit-hint";
+    hint.textContent = t.changeImg;
+    thumbWrap.appendChild(hint);
+    card.appendChild(thumbWrap);
 
-    // text
-    const span = document.createElement("span");
-    span.className = "book-title";
-    let html = `<span class="book-number">#${bookNumber}</span> ${displayTitle} <span class="book-year">(${book.year})</span>`;
-    book.tags.forEach(t => {
-      if (TAGS[t]) html += `<span class="book-tag" title="${lang==='es'?TAGS[t].labelEs:TAGS[t].label}">${TAGS[t].emoji}</span>`;
+    // title block
+    const titleBlock = document.createElement("div");
+    titleBlock.innerHTML = `<span class="book-number">#${bookNumber}</span><br>
+      <span class="book-title">${displayTitle}</span> <span class="book-year">(${book.year})</span>`;
+    card.appendChild(titleBlock);
+
+    // tags row
+    if (book.tags.length) {
+      const tagsRow = document.createElement("div");
+      tagsRow.className = "book-tags-row";
+      book.tags.forEach(tk => {
+        if (tags[tk]) {
+          const sp = document.createElement("span");
+          sp.title = lang === "es" ? tags[tk].labelEs : tags[tk].label;
+          sp.textContent = tags[tk].emoji;
+          tagsRow.appendChild(sp);
+        }
+      });
+      card.appendChild(tagsRow);
+    }
+
+    // controls row: status buttons + owned button
+    const controls = document.createElement("div");
+    controls.className = "controls-row";
+
+    const statusBtns = document.createElement("div");
+    statusBtns.className = "status-btns";
+    [["unread", t.statusUnread], ["reading", t.statusReading], ["read", t.statusRead]].forEach(([key, label]) => {
+      const b = document.createElement("button");
+      b.className = "status-btn" + (status === key ? " active " + key : "");
+      b.textContent = label;
+      b.onclick = (e) => setStatus(book.id, key, e);
+      statusBtns.appendChild(b);
     });
-    html += isOwned
-      ? `<span class="owned-badge" title="${I18N[lang].ownedTitle}">✓ ${I18N[lang].ownedF}</span>`
-      : `<span class="missing-badge" title="${I18N[lang].missingTitle}">○ ${I18N[lang].missingF}</span>`;
-    html += `<span class="remove-btn" title="${lang==='es'?'Eliminar':'Remove'}" onclick="removeBook(${book.id}, event)">✕</span>`;
-    span.innerHTML = html;
-    span.onclick = (e) => { if (e.target.classList.contains('remove-btn')) return; toggleRead(book.id, e); };
-    div.appendChild(span);
-    grid.appendChild(div);
-  });
-}
+    controls.appendChild(statusBtns);
 
-// ── LEGEND ────────────────────────────────────────────────────────────────────
-function renderLegend() {
-  const legend = document.getElementById("legend");
-  legend.innerHTML = "";
-  Object.entries(TAGS).forEach(([, cfg]) => {
-    const s = document.createElement("span");
-    s.className = "legend-item";
-    s.textContent = cfg.emoji + " " + (lang === "es" ? cfg.labelEs : cfg.label);
-    legend.appendChild(s);
+    const ownedBtn = document.createElement("button");
+    ownedBtn.className = "owned-btn " + (isOwned ? "is-owned" : "is-missing");
+    ownedBtn.textContent = (isOwned ? "✓ " : "🛒 ") + (isOwned ? t.ownedYes : t.ownedNo);
+    ownedBtn.onclick = (e) => toggleOwned(book.id, e);
+    controls.appendChild(ownedBtn);
+
+    card.appendChild(controls);
+    grid.appendChild(card);
   });
 }
 
@@ -632,21 +802,13 @@ function showMsg(text, color) {
 }
 
 function exportProgress() {
-  const data = {
-    version: 2,
-    date: new Date().toISOString(),
-    read: read,
-    owned: owned,
-    books: books,
-  };
+  const data = { version: 4, date: new Date().toISOString(), books, customTags, theme };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
   const url  = URL.createObjectURL(blob);
   const a    = document.createElement("a");
-  a.href     = url;
-  a.download = "stephen-king-progress.json";
-  a.click();
+  a.href = url; a.download = "stephen-king-progress.json"; a.click();
   URL.revokeObjectURL(url);
-  showMsg(I18N[lang].exportOk, "#7ecf7e");
+  showMsg(I18N[lang].exportOk, "var(--owned-color)");
 }
 
 function importProgress(event) {
@@ -656,20 +818,15 @@ function importProgress(event) {
   reader.onload = (e) => {
     try {
       const data = JSON.parse(e.target.result);
-      if (!data.read) throw new Error("invalid");
-      read  = data.read;
-      owned = data.owned || {};
-      if (Array.isArray(data.books) && data.books.length) {
-        const existingIds = new Set(books.map(b => b.id));
-        data.books.forEach(b => { if (!existingIds.has(b.id)) books.push(b); });
-        books.sort((a, b) => a.year - b.year);
-      }
+      if (!Array.isArray(data.books)) throw new Error("invalid");
+      books = data.books;
+      customTags = data.customTags || {};
+      if (data.theme) { theme = data.theme; document.body.setAttribute("data-theme", theme); }
       save();
-      renderBooks();
-      updateProgress();
-      showMsg(I18N[lang].importOk, "#7eb8cf");
+      renderTagButtons(); renderTagManagerList(); renderFilterGroups(); renderBooks(); updateProgress();
+      showMsg(I18N[lang].importOk, "var(--reading-color)");
     } catch {
-      showMsg(I18N[lang].importErr, "#cf7e7e");
+      showMsg(I18N[lang].importErr, "var(--missing-color)");
     }
     event.target.value = "";
   };
@@ -677,11 +834,11 @@ function importProgress(event) {
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────────
+document.body.setAttribute("data-theme", theme);
 renderTagButtons();
 applyLang();
 renderBooks();
 updateProgress();
-renderLegend();
 </script>
 </body>
 </html>
