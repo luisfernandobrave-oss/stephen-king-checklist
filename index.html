@@ -328,14 +328,6 @@
   </div>
 </div>
 
-<!-- INFO BOX: instructions to add books in code -->
-<div id="info-box">
-  <span id="info-text">
-    Tip: you can also bulk-add books directly in the code. Open the script and add objects to the <code>INITIAL_BOOKS</code> array, e.g.
-    <code>{ id: 1, title: "The Shining", titleEs: "El resplandor", year: 1977, tags: [] }</code>
-  </span>
-</div>
-
 <!-- BOOK GRID -->
 <div id="book-grid"></div>
 
@@ -427,7 +419,6 @@ function applyLang() {
   document.getElementById("submit-btn").textContent   = t.submit;
   document.getElementById("lbl-export").textContent   = t.export;
   document.getElementById("lbl-import").textContent   = t.import;
-  document.getElementById("info-text").innerHTML      = t.info;
   // filter buttons
   const fb = document.querySelectorAll(".filter-btn");
   const labels = [t.all, t.readF, t.unread, t.ownedF, t.missingF, t.collection, "Bachman"];
